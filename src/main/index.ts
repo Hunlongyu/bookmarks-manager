@@ -1,13 +1,12 @@
 'use strict'
 
 import { app, protocol, BrowserWindow } from 'electron'
-import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import win from './win'
+import './events'
 // import { autoUpdater } from 'electron-updater'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
-
-// app.commandLine.appendSwitch('disable-site-isolation-trials')
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -26,7 +25,7 @@ app.on('activate', () => {
 app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     try {
-      await installExtension(VUEJS3_DEVTOOLS)
+      await installExtension(VUEJS_DEVTOOLS)
     } catch (err) {
       console.error('Vue Devtools failed to install:', JSON.stringify(err))
     }

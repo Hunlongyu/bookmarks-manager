@@ -18,11 +18,8 @@ const config: BWConfig = {
   },
   home: {
     frame: false,
-    width: isDevelopment ? 1024 : 1024,
-    height: 760,
-    transparent: true,
-    hasShadow: true,
-    backgroundColor: '#00000000'
+    width: isDevelopment ? 1624 : 1024,
+    height: 760
   }
 }
 
