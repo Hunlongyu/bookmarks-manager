@@ -65,6 +65,15 @@ const toJSON = (content: string): (Bookmark | Folder)[] => {
   const root: (Bookmark | Folder)[] = []
   if (!body) return root
   const rdt = getRootFolder(body)?.children('dt')
+  console.log(rdt)
+  // const parseNode = (node: cheerio.Cheerio<cheerio.Element>) => {
+  //   const eq = node.children().eq(0)
+
+  //   switch (eq[0].name) {
+  //     case 'h3':
+
+  //   }
+  // }
 
   console.log('to json')
   return root
