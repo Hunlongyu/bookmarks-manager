@@ -3,11 +3,11 @@ import { contextBridge, ipcRenderer, shell, IpcRendererEvent } from 'electron'
 declare global {
   interface Window {
     api: {
-      invoke: (channel: string, args?: unknown[]) => void
-      send: (channel: string, args?: unknown[]) => void
-      on: (channel: string, listener: (event: IpcRendererEvent, ...args: unknown[]) => void) => void
-      once: (channel: string, listener: (event: IpcRendererEvent, ...args: unknown[]) => void) => void
-      removeListener: (channel: string, listener: (event: IpcRendererEvent, ...args: unknown[]) => void) => void
+      invoke: (channel: string, args?: any[]) => void
+      send: (channel: string, args?: any[]) => void
+      on: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void) => void
+      once: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void) => void
+      removeListener: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void) => void
       removeAllListeners: (channel: string) => void
     }
     shell: {
@@ -17,19 +17,19 @@ declare global {
 }
 
 contextBridge.exposeInMainWorld('api', {
-  invoke: (channel: string, args: unknown[]): void => {
+  invoke: (channel: string, args: any[]): void => {
     ipcRenderer.invoke(channel, args)
   },
-  send: (channel: string, args: unknown[]): void => {
+  send: (channel: string, args: any[]): void => {
     ipcRenderer.send(channel, args)
   },
-  on: (channel: string, listener: (event: IpcRendererEvent, ...args: unknown[]) => void): void => {
+  on: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
     ipcRenderer.on(channel, listener)
   },
-  once: (channel: string, listener: (event: IpcRendererEvent, ...args: unknown[]) => void): void => {
+  once: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
     ipcRenderer.once(channel, listener)
   },
-  removeListener: (channel: string, listener: (event: IpcRendererEvent, ...args: unknown[]) => void): void => {
+  removeListener: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
     ipcRenderer.removeListener(channel, listener)
   },
   removeAllListeners: (channel: string): void => {

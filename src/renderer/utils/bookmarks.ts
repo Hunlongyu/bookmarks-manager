@@ -1,34 +1,24 @@
 import * as cheerio from 'cheerio'
+import { nanoid } from 'nanoid'
 
-interface Record {
-  [key: string]: string | undefined
-}
-
-export interface BookmarkProperties extends Record {
-  ADD_DATE?: string
-  LAST_MODIFIED?: string
-  ICON?: string
-  ICON_URI?: string
-  SHORTCUT_URL?: string
-  TAGS?: string
-}
-
-export interface Bookmark {
+export interface Bookmarks {
+  key: string
+  type: string
+  name: string
   href: string
-  name: string
-  properties?: BookmarkProperties
+  icon: string
+  path?: string
+  children?: Bookmarks[]
 }
 
-export interface FolderProperties extends Record {
-  ADD_DATE?: string
-  LAST_MODIFIED?: string
-  PERSONAL_TOOLBAR_FOLDER?: 'true' | 'false'
+interface Folder extends Bookmarks {
+  type: 'folder'
+  children?: Bookmarks[]
 }
 
-export interface Folder {
-  name: string
-  children: (Bookmark | Folder)[]
-  properties?: FolderProperties
+interface Site extends Bookmarks {
+  type: 'site'
+  children?: Bookmarks[]
 }
 
 const HEADER = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
@@ -58,25 +48,67 @@ const getRootFolder = (body: cheerio.Cheerio<cheerio.Element>) => {
   return body.children('dl').first()
 }
 
-const toJSON = (content: string): (Bookmark | Folder)[] => {
+const toJSON = (content: string): Bookmarks[] => {
   const $ = cheerio.load(content, { decodeEntities: false })
 
   const body = $('body')
-  const root: (Bookmark | Folder)[] = []
+  const root: Bookmarks[] = []
   if (!body) return root
   const rdt = getRootFolder(body)?.children('dt')
-  console.log(rdt)
-  // const parseNode = (node: cheerio.Cheerio<cheerio.Element>) => {
-  //   const eq = node.children().eq(0)
 
-  //   switch (eq[0].name) {
-  //     case 'h3':
+  const parseNode = (node: cheerio.Cheerio<cheerio.Element>, p: string): Bookmarks => {
+    const eq = node.children().eq(0)
 
-  //   }
-  // }
+    const key = nanoid()
+    const name = eq.html() || ''
+    let type = 'site'
+    let href = ''
+    let icon = ''
+    let path = p
+    let children: Bookmarks[] = []
 
-  console.log('to json')
+    if (eq[0].name === 'h3') {
+      type = 'folder'
+      path = `${p}/${name}`
+      const dl = node.children('dl').first()
+      const dts = dl.children()
+      const ls = dts.toArray().map(ele => {
+        if (ele.name !== 'dt') return null
+        return parseNode($(ele), path)
+      })
+      children = ls.filter(item => item !== null) as Bookmarks[]
+    }
+    if (eq[0].name === 'a') {
+      type = 'site'
+      href = eq.attr('href') || ''
+      icon = eq.attr('icon') || ''
+      path = `${p}/${name}`
+    }
+
+    const doc: Bookmarks = { key, type, name, href, icon, path }
+    if (children.length !== 0) {
+      doc.children = children
+    }
+    return doc
+  }
+
+  rdt.each((_, item) => {
+    const node = $(item)
+    const child = parseNode(node, '')
+    root.push(child)
+  })
+
   return root
+}
+
+const updateJSON = (data: Bookmarks[], val: Bookmarks): Bookmarks[] => {
+  const key = val.key
+  console.log(val, val.path, '=====  val =====')
+  const path = val.path?.split('/')
+  console.log(path)
+  const arr = [...data]
+
+  return arr
 }
 
 const toHTML = (): string => {
@@ -94,6 +126,7 @@ const getRepeat = (): void => {
 
 export {
   toJSON,
+  updateJSON,
   toHTML,
   getList,
   getRepeat
