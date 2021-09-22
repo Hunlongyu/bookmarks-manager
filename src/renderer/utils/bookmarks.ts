@@ -11,16 +11,6 @@ export interface Bookmarks {
   children?: Bookmarks[]
 }
 
-interface Folder extends Bookmarks {
-  type: 'folder'
-  children?: Bookmarks[]
-}
-
-interface Site extends Bookmarks {
-  type: 'site'
-  children?: Bookmarks[]
-}
-
 const HEADER = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
 <!-- This is an automatically generated file.
      It will be read and overwritten.
@@ -48,6 +38,7 @@ const getRootFolder = (body: cheerio.Cheerio<cheerio.Element>) => {
   return body.children('dl').first()
 }
 
+// 转为书签 JSON
 const toJSON = (content: string): Bookmarks[] => {
   const $ = cheerio.load(content, { decodeEntities: false })
 
@@ -82,7 +73,7 @@ const toJSON = (content: string): Bookmarks[] => {
       type = 'site'
       href = eq.attr('href') || ''
       icon = eq.attr('icon') || ''
-      path = `${p}/${name}`
+      path = `${p}/`
     }
 
     const doc: Bookmarks = { key, type, name, href, icon, path }
@@ -101,23 +92,71 @@ const toJSON = (content: string): Bookmarks[] => {
   return root
 }
 
+// 更新书签
 const updateJSON = (data: Bookmarks[], val: Bookmarks): Bookmarks[] => {
   const key = val.key
-  console.log(val, val.path, '=====  val =====')
-  const path = val.path?.split('/')
-  console.log(path)
+  if (!val.path) return data
+  const path = val.path.split('/')
   const arr = [...data]
+  let idx = 1
+  function getItem (child: Bookmarks[], idx: number) {
+    child.forEach(item => {
+      if (item.key === key) {
+        item = val
+      } else {
+        if (item.name === path[idx] && item.children) {
+          idx++
+          getItem(item.children, idx)
+        }
+      }
+    })
+    return child
+  }
+  arr.forEach(item => {
+    if (item.name === path[idx]) {
+      if (item.key === key) {
+        item = val
+      } else {
+        idx++
+        if (item.children && idx <= path.length) {
+          getItem(item.children, idx)
+        }
+      }
+    }
+  })
+  return arr
+}
 
+// 获取扁平书签列表
+const getFlatList = (data: Bookmarks[]): Bookmarks[] => {
+  const d = [...data]
+  const arr: Bookmarks[] = []
+  function getSite (child: Bookmarks[]) {
+    for (const i of child) {
+      if (i.type === 'site') {
+        arr.push(i)
+      } else {
+        if (i.type === 'folder' && i.children) {
+          getSite(i.children)
+        }
+      }
+    }
+  }
+  d.forEach(item => {
+    if (item.type === 'site') {
+      arr.push(item)
+    } else {
+      if (item.type === 'folder' && item.children) {
+        getSite(item.children)
+      }
+    }
+  })
   return arr
 }
 
 const toHTML = (): string => {
   console.log('toHTML')
   return HEADER
-}
-
-const getList = (): void => {
-  console.log('get list')
 }
 
 const getRepeat = (): void => {
@@ -127,7 +166,7 @@ const getRepeat = (): void => {
 export {
   toJSON,
   updateJSON,
+  getFlatList,
   toHTML,
-  getList,
   getRepeat
 }
