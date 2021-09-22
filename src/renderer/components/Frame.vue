@@ -31,7 +31,7 @@ function winEvent (e: string) {
 
 async function checkOS () {
   window.api.invoke('event.win.os')
-  window.api.on('event.win.os_replay', (e, args) => {
+  window.api.on('event.win.os_replay', args => {
     os.value = args
     window.api.removeAllListeners('event.win.os_replay')
   })

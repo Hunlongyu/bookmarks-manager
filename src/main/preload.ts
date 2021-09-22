@@ -1,13 +1,10 @@
-import { contextBridge, ipcRenderer, shell, IpcRendererEvent } from 'electron'
+import { contextBridge, ipcRenderer, shell } from 'electron'
 
 declare global {
   interface Window {
     api: {
       invoke: (channel: string, args?: any[]) => void
-      send: (channel: string, args?: any[]) => void
-      on: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void) => void
-      once: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void) => void
-      removeListener: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void) => void
+      on: (channel: string, listener: (...args: any[]) => void) => void
       removeAllListeners: (channel: string) => void
     }
     shell: {
@@ -17,20 +14,17 @@ declare global {
 }
 
 contextBridge.exposeInMainWorld('api', {
-  invoke: (channel: string, args: any[]): void => {
-    ipcRenderer.invoke(channel, args)
+  invoke: (channel: string, data: any[]) => {
+    const whitelist = ['event.tools.bookmarks', 'event.win.dialog', 'event.win.os', 'event.win.mini', 'event.win.max', 'event.win.close']
+    if (whitelist.includes(channel)) {
+      ipcRenderer.invoke(channel, data)
+    }
   },
-  send: (channel: string, args: any[]): void => {
-    ipcRenderer.send(channel, args)
-  },
-  on: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
-    ipcRenderer.on(channel, listener)
-  },
-  once: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
-    ipcRenderer.once(channel, listener)
-  },
-  removeListener: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): void => {
-    ipcRenderer.removeListener(channel, listener)
+  on: (channel: string, listener: (...args: any[]) => void) => {
+    const whitelist = ['event.tools.bookmarks_replay', 'event.win.dialog_replay', 'event.win.os_replay']
+    if (whitelist.includes(channel)) {
+      ipcRenderer.on(channel, (event, ...args: any[]) => listener(...args))
+    }
   },
   removeAllListeners: (channel: string): void => {
     ipcRenderer.removeAllListeners(channel)

@@ -15,7 +15,7 @@ class Router {
   }
 
   // 【窗口】 最小化
-  mini (name: string) {
+  mini (name?: string) {
     if (name && this.windows[name]) {
       this.windows[name].minimize()
     } else {
@@ -25,7 +25,7 @@ class Router {
   }
 
   // 【窗口】 最大化
-  max (name: string) {
+  max (name?: string) {
     if (name && this.windows[name]) {
       this.windows[name].isMaximized() ? this.windows[name].unmaximize() : this.windows[name].maximize()
     } else {
@@ -35,7 +35,7 @@ class Router {
   }
 
   // 【窗口】 关闭
-  close (name: string) {
+  close (name?: string) {
     if (name && this.windows[name]) {
       this.windows[name].close()
     } else {

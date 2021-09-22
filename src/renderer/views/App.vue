@@ -136,13 +136,11 @@ function updateData () {
 
 function selectBookmarksFile () {
   window.api.invoke('event.tools.bookmarks')
-  window.api.on('event.tools.bookmarks_replay', (e, args) => {
-    if (args) {
-      filePath.value = args.path
-      const res = toJSON(args.content)
-      console.log('=== res ===', res)
-      data.value = res
-    }
+  window.api.on('event.tools.bookmarks_replay', args => {
+    filePath.value = args.path
+    const res = toJSON(args.content)
+    console.log('=== res ===', res)
+    data.value = res
     window.api.removeAllListeners('event.tools.bookmarks_replay')
   })
 }

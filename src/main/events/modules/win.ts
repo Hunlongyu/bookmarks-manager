@@ -1,4 +1,4 @@
-import { ipcMain, shell, dialog } from 'electron'
+import { ipcMain, dialog } from 'electron'
 import os from 'os'
 import { OpenDialogOptions } from 'electron/main'
 import win from '../../win'
@@ -8,26 +8,17 @@ ipcMain.handle('event.win.open', (e, args) => {
   win.open(params.name)
 })
 
-ipcMain.handle('event.win.mini', (e, args) => {
-  win.mini(args.name)
+ipcMain.handle('event.win.mini', () => {
+  win.mini()
 })
 
-ipcMain.handle('event.win.max', (e, args) => {
-  win.max(args.name)
+ipcMain.handle('event.win.max', () => {
+  win.max()
 })
 
 ipcMain.handle('event.win.close', (e, args) => {
   const params = args[0]
   win.close(params.name)
-})
-
-ipcMain.handle('event.win.openDir', (e, args) => {
-  shell.showItemInFolder(args)
-})
-
-ipcMain.handle('event.win.logout', (e) => {
-  e.sender.session.clearStorageData()
-  e.sender.send('event.win.logout_replay')
 })
 
 ipcMain.handle('event.win.os', (e) => {
