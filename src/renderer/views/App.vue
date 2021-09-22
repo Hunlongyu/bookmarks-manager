@@ -6,12 +6,14 @@
         <n-input :style="{ width: '50%' }" :value="filePath" />
         <n-button ghost @click="selectBookmarksFile">选择书签文件</n-button>
       </n-input-group>
-      <n-button ghost>检测重复文件</n-button>
+      <n-switch v-model:value="tableSwitch" @update:value="changeTableType"></n-switch>
+      <n-button class="repeat" ghost @click="checkRepeatBM">检测重复文件</n-button>
       <n-button class="invalid" ghost>检测失效链接</n-button>
     </div>
     <div class="main-content">
       <div class="main-content-wrapper">
-        <n-data-table :columns="columns" :data="data" max-height="100%" size="small"/>
+        <n-data-table :columns="columns" :data="data" max-height="100%" size="small" v-if="!flat"/>
+        <n-data-table :columns="flatColumns" :data="flatData" max-height="100%" virtual-scroll :pagination="pagination" v-if="flat" size="small" />
       </div>
     </div>
     <div class="main-footer">
@@ -40,13 +42,16 @@
 
 <script lang="ts" setup>
 import Frame from '@/renderer/components/Frame.vue'
-import { ref, h } from 'vue'
-import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem } from 'naive-ui'
-import { toJSON, Bookmarks, updateJSON } from '@/renderer/utils/bookmarks'
+import { ref, h, reactive } from 'vue'
+import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch } from 'naive-ui'
+import { toJSON, Bookmarks, updateJSON, getFlatList } from '@/renderer/utils/bookmarks'
 
 const filePath = ref('')
 
+const tableSwitch = ref(false)
+const flat = ref(false)
 const data = ref()
+const flatData = ref()
 const createColumns = () => {
   return [
     { type: 'selection' },
@@ -75,7 +80,7 @@ const createColumns = () => {
       }
     },
     { title: 'name', key: 'name', ellipsis: { tooltip: true } },
-    { title: 'href', key: 'path', ellipsis: { tooltip: true } },
+    { title: 'href', key: 'href', ellipsis: { tooltip: true } },
     {
       title: 'Action',
       key: 'actions',
@@ -97,11 +102,67 @@ const createColumns = () => {
   ]
 }
 const columns = createColumns()
+const flatColumns = [
+  { type: 'selection' },
+  {
+    title: 'icon',
+    key: 'icon',
+    width: 60,
+    render (row: Bookmarks) {
+      return h(
+        NImage,
+        {
+          src: row.icon
+        }
+      )
+    }
+  },
+  { title: 'name', key: 'name', ellipsis: { tooltip: true } },
+  { title: 'href', key: 'href', ellipsis: { tooltip: true } },
+  { title: 'path', key: 'path', ellipsis: { tooltip: true } },
+  {
+    title: 'Action',
+    key: 'actions',
+    width: 200,
+    render (row: Bookmarks) {
+      const openBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => openBtnClick(row) }, { default: () => 'Open' })
+      const editBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => editBtnClick(row) }, { default: () => 'Edit' })
+      const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', type: 'error' }, { default: () => 'Delete' })
+      const btns = []
+      if (row.type === 'folder') {
+        btns.push(deleteBtn)
+      }
+      if (row.type === 'site') {
+        btns.push(openBtn, editBtn, deleteBtn)
+      }
+      return btns
+    }
+  }
+]
+const pagination = reactive({
+  page: 1,
+  pageSize: 50,
+  showSizePicker: true,
+  pageSizes: [20, 50, 100, 200],
+  onChange: (page: number) => {
+    pagination.page = page
+  },
+  onPageSizeChange: (pageSize: number) => {
+    pagination.pageSize = pageSize
+    pagination.page = 1
+  }
+})
+
 // 打开书签的链接
 function openBtnClick (row: Bookmarks) {
   window.shell.openExternal(row.href)
 }
 
+function changeTableType () {
+  flat.value = tableSwitch.value
+}
+
+// 书签编辑
 const model = ref({
   key: '',
   type: '',
@@ -109,6 +170,7 @@ const model = ref({
   name: '',
   href: ''
 })
+// 书签编辑校验
 const rules = {
   name: {
     required: true,
@@ -121,26 +183,32 @@ const rules = {
     message: '不能为空'
   }
 }
+// 控制书签编辑框显示
 const showEditItemModle = ref(false)
 // 编辑书签内容
 function editBtnClick (row: Bookmarks) {
   model.value = row
   showEditItemModle.value = true
-  const test = { ...model.value }
-  test.name = 'test'
-  updateJSON(data.value, test)
 }
+// 更新书签
 function updateData () {
-  // updateJSON(data.value, model.value.key)
+  updateJSON(data.value, model.value)
+  showEditItemModle.value = false
 }
 
+function checkRepeatBM () {
+  flat.value = true
+  flatData.value = getFlatList(data.value)
+}
+
+// 选择书签文件， 并解析内容
 function selectBookmarksFile () {
   window.api.invoke('event.tools.bookmarks')
   window.api.on('event.tools.bookmarks_replay', args => {
     filePath.value = args.path
     const res = toJSON(args.content)
-    console.log('=== res ===', res)
     data.value = res
+    flatData.value = getFlatList(data.value)
     window.api.removeAllListeners('event.tools.bookmarks_replay')
   })
 }
@@ -172,7 +240,7 @@ html,body{
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    .invalid{
+    .repeat, .invalid{
       margin-left: 10px;
     }
   }
