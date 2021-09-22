@@ -44,7 +44,7 @@
 import Frame from '@/renderer/components/Frame.vue'
 import { ref, h, reactive } from 'vue'
 import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch } from 'naive-ui'
-import { toJSON, Bookmarks, updateJSON, getFlatList } from '@/renderer/utils/bookmarks'
+import { toJSON, Bookmarks, updateJSON, getFlatList, deleteBM } from '@/renderer/utils/bookmarks'
 
 const filePath = ref('')
 
@@ -88,7 +88,7 @@ const createColumns = () => {
       render (row: Bookmarks) {
         const openBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => openBtnClick(row) }, { default: () => 'Open' })
         const editBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => editBtnClick(row) }, { default: () => 'Edit' })
-        const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', type: 'error' }, { default: () => 'Delete' })
+        const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => deleteBtnClick(row), type: 'error' }, { default: () => 'Delete' })
         const btns = []
         if (row.type === 'folder') {
           btns.push(deleteBtn)
@@ -127,7 +127,7 @@ const flatColumns = [
     render (row: Bookmarks) {
       const openBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => openBtnClick(row) }, { default: () => 'Open' })
       const editBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => editBtnClick(row) }, { default: () => 'Edit' })
-      const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', type: 'error' }, { default: () => 'Delete' })
+      const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => deleteBtnClick(row), type: 'error' }, { default: () => 'Delete' })
       const btns = []
       if (row.type === 'folder') {
         btns.push(deleteBtn)
@@ -194,6 +194,11 @@ function editBtnClick (row: Bookmarks) {
 function updateData () {
   updateJSON(data.value, model.value)
   showEditItemModle.value = false
+}
+// 删除书签
+function deleteBtnClick (row: Bookmarks) {
+  data.value = deleteBM(data.value, row)
+  flatData.value = getFlatList(data.value)
 }
 
 function checkRepeatBM () {

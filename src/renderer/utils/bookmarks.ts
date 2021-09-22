@@ -154,6 +154,36 @@ const getFlatList = (data: Bookmarks[]): Bookmarks[] => {
   return arr
 }
 
+const deleteBM = (data: Bookmarks[], val: Bookmarks): Bookmarks[] => {
+  const key = val.key
+  const arr = [...data]
+  function deleteItem (child: Bookmarks[]) {
+    for (let i = 0; i < child.length; i++) {
+      if (child[i].key === key) {
+        child.splice(i, 1)
+        console.log('=== find ===', i, child[i].key, key)
+        return child
+      } else {
+        const cd = child[i].children
+        if (cd) deleteItem(cd)
+      }
+    }
+  }
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].key === key) {
+      console.log('=== find ===', i, arr[i].key, key)
+      arr.splice(i, 1)
+      return arr
+    } else {
+      const child = arr[i].children
+      if (child) deleteItem(child)
+    }
+  }
+
+  return arr
+}
+
 const toHTML = (): string => {
   console.log('toHTML')
   return HEADER
@@ -167,6 +197,7 @@ export {
   toJSON,
   updateJSON,
   getFlatList,
+  deleteBM,
   toHTML,
   getRepeat
 }
