@@ -7,13 +7,15 @@
         <n-button ghost @click="selectBookmarksFile">选择书签文件</n-button>
       </n-input-group>
       <n-switch v-model:value="tableSwitch" @update:value="changeTableType"></n-switch>
-      <n-button class="repeat" ghost @click="checkRepeatBM">检测重复文件</n-button>
+      <n-button class="repeat" :type="repeatShow ? 'primary' : 'default'" :ghost="!repeatShow" @click="checkRepeatBM">检测重复链接</n-button>
       <n-button class="invalid" ghost>检测失效链接</n-button>
+      <n-button class="invalid" type="info" ghost>保存</n-button>
     </div>
     <div class="main-content">
       <div class="main-content-wrapper">
-        <n-data-table :columns="columns" :data="data" max-height="100%" size="small" v-if="!flat"/>
-        <n-data-table :columns="flatColumns" :data="flatData" max-height="100%" virtual-scroll :pagination="pagination" v-if="flat" size="small" />
+        <n-data-table :columns="columns" :data="data" max-height="100%" size="small" v-if="!flat && !repeatShow"/>
+        <n-data-table :columns="flatColumns" :data="flatData" max-height="100%" virtual-scroll :pagination="pagination" v-if="flat && !repeatShow" size="small" />
+        <n-data-table :columns="flatColumns" :data="repeatData" max-height="100%" virtual-scroll v-if="repeatShow" size="small" />
       </div>
     </div>
     <div class="main-footer">
@@ -45,7 +47,7 @@
 import Frame from '@/renderer/components/Frame.vue'
 import { ref, h, reactive } from 'vue'
 import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect } from 'naive-ui'
-import { toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM } from '@/renderer/utils/bookmarks'
+import { toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat } from '@/renderer/utils/bookmarks'
 
 const filePath = ref('')
 
@@ -156,6 +158,20 @@ const pagination = reactive({
 const tree = ref()
 const selectTree = ref('')
 
+const repeatData = ref()
+const repeatShow = ref(false)
+
+// 选择书签文件， 并解析内容
+function selectBookmarksFile () {
+  window.api.invoke('event.tools.bookmarks')
+  window.api.on('event.tools.bookmarks_replay', args => {
+    filePath.value = args.path
+    const res = toJSON(args.content)
+    data.value = res
+    flatData.value = getFlatList(data.value)
+    window.api.removeAllListeners('event.tools.bookmarks_replay')
+  })
+}
 // 打开书签的链接
 function openBtnClick (row: Bookmarks) {
   window.shell.openExternal(row.href)
@@ -199,33 +215,30 @@ function editBtnClick (row: Bookmarks) {
 function updateData () {
   if (selectTree.value !== '') {
     data.value = moveBM(data.value, selectTree.value, model.value)
+    flatData.value = getFlatList(data.value)
   } else {
-    updateJSON(data.value, model.value)
+    data.value = updateJSON(data.value, model.value)
+    flatData.value = getFlatList(data.value)
   }
   showEditItemModle.value = false
 }
 // 删除书签
 function deleteBtnClick (row: Bookmarks) {
-  console.log(row, '=== delete btn click ===')
   data.value = deleteBM(data.value, row)
   flatData.value = getFlatList(data.value)
+  repeatData.value = getRepeat(flatData.value)
 }
 
+// 检测重复书签
 function checkRepeatBM () {
-  const lala = getFolderTree(data.value)
-  console.log(lala)
-}
-
-// 选择书签文件， 并解析内容
-function selectBookmarksFile () {
-  window.api.invoke('event.tools.bookmarks')
-  window.api.on('event.tools.bookmarks_replay', args => {
-    filePath.value = args.path
-    const res = toJSON(args.content)
-    data.value = res
-    flatData.value = getFlatList(data.value)
-    window.api.removeAllListeners('event.tools.bookmarks_replay')
-  })
+  if (flatData.value) {
+    if (repeatShow.value) {
+      repeatShow.value = false
+    } else {
+      repeatShow.value = true
+      repeatData.value = getRepeat(flatData.value)
+    }
+  }
 }
 </script>
 

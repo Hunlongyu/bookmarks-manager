@@ -233,8 +233,32 @@ const toHTML = (): string => {
   return HEADER
 }
 
-const getRepeat = (): void => {
-  console.log('get repeat')
+const getRepeat = (data: Bookmarks[]): Bookmarks[] => {
+  const arr = [...data]
+  const repeatArr: Bookmarks[] = []
+
+  function checkItem (d: Bookmarks[]) {
+    if (d.length <= 1) return false
+    const drr = [...d]
+    const first = d[0]
+    const a = d.filter(item => {
+      return item.href === first.href
+    })
+
+    if (a.length > 1) {
+      for (let i = a.length - 1; i >= 0; i--) {
+        const n = drr.findIndex(item => item.key === a[i].key)
+        if (n < 0) return false
+        repeatArr.push(a[i])
+        drr.splice(n, 1)
+      }
+    } else {
+      drr.shift()
+    }
+    checkItem(drr)
+  }
+  checkItem(arr)
+  return repeatArr
 }
 
 export {
