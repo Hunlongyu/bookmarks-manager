@@ -31,6 +31,7 @@
             <n-input v-model:value="model.href" @keydown.enter.prevent />
           </n-form-item>
         </n-form>
+        <n-tree-select :options="tree" label-field="name" default-expand-all clearable v-model:value="selectTree" />
       </div>
       <template #action>
         <n-button size="small" @click="showEditItemModle === false">取消</n-button>
@@ -43,8 +44,8 @@
 <script lang="ts" setup>
 import Frame from '@/renderer/components/Frame.vue'
 import { ref, h, reactive } from 'vue'
-import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch } from 'naive-ui'
-import { toJSON, Bookmarks, updateJSON, getFlatList, deleteBM } from '@/renderer/utils/bookmarks'
+import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect } from 'naive-ui'
+import { toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM } from '@/renderer/utils/bookmarks'
 
 const filePath = ref('')
 
@@ -152,16 +153,17 @@ const pagination = reactive({
     pagination.page = 1
   }
 })
+const tree = ref()
+const selectTree = ref('')
 
 // 打开书签的链接
 function openBtnClick (row: Bookmarks) {
   window.shell.openExternal(row.href)
 }
-
+// 切换表格类型
 function changeTableType () {
   flat.value = tableSwitch.value
 }
-
 // 书签编辑
 const model = ref({
   key: '',
@@ -185,25 +187,33 @@ const rules = {
 }
 // 控制书签编辑框显示
 const showEditItemModle = ref(false)
-// 编辑书签内容
+// 点击编辑按钮
 function editBtnClick (row: Bookmarks) {
+  if (!row.path) return false
   model.value = row
+  tree.value = getFolderTree(data.value)
+  selectTree.value = getFolderKey(tree.value, row.path)
   showEditItemModle.value = true
 }
-// 更新书签
+// 更新书签内容
 function updateData () {
-  updateJSON(data.value, model.value)
+  if (selectTree.value !== '') {
+    data.value = moveBM(data.value, selectTree.value, model.value)
+  } else {
+    updateJSON(data.value, model.value)
+  }
   showEditItemModle.value = false
 }
 // 删除书签
 function deleteBtnClick (row: Bookmarks) {
+  console.log(row, '=== delete btn click ===')
   data.value = deleteBM(data.value, row)
   flatData.value = getFlatList(data.value)
 }
 
 function checkRepeatBM () {
-  flat.value = true
-  flatData.value = getFlatList(data.value)
+  const lala = getFolderTree(data.value)
+  console.log(lala)
 }
 
 // 选择书签文件， 并解析内容

@@ -99,12 +99,12 @@ const updateJSON = (data: Bookmarks[], val: Bookmarks): Bookmarks[] => {
   const path = val.path.split('/')
   const arr = [...data]
   let idx = 1
-  function getItem (child: Bookmarks[], idx: number) {
+  function getItem (child: Bookmarks[], num: number) {
     child.forEach(item => {
       if (item.key === key) {
         item = val
       } else {
-        if (item.name === path[idx] && item.children) {
+        if (item.name === path[num] && item.children) {
           idx++
           getItem(item.children, idx)
         }
@@ -112,18 +112,7 @@ const updateJSON = (data: Bookmarks[], val: Bookmarks): Bookmarks[] => {
     })
     return child
   }
-  arr.forEach(item => {
-    if (item.name === path[idx]) {
-      if (item.key === key) {
-        item = val
-      } else {
-        idx++
-        if (item.children && idx <= path.length) {
-          getItem(item.children, idx)
-        }
-      }
-    }
-  })
+  getItem(arr, idx)
   return arr
 }
 
@@ -142,18 +131,48 @@ const getFlatList = (data: Bookmarks[]): Bookmarks[] => {
       }
     }
   }
-  d.forEach(item => {
-    if (item.type === 'site') {
-      arr.push(item)
-    } else {
-      if (item.type === 'folder' && item.children) {
-        getSite(item.children)
-      }
-    }
-  })
+  getSite(d)
   return arr
 }
 
+// 获取目录树
+const getFolderTree = (data: Bookmarks[]): Bookmarks[] => {
+  const root: Bookmarks[] = []
+  const arr = [...data]
+
+  const parseNode = (child: Bookmarks): Bookmarks | null => {
+    if (child.type === 'site') return null
+    const key = child.key
+    const name = child.name
+    const type = 'folder'
+    const href = ''
+    const icon = ''
+    const path = child.path
+    let children: Bookmarks[] = []
+
+    const cdc = child.children
+    if (cdc) {
+      const ls = cdc.map(item => {
+        if (item.type === 'site') return null
+        return parseNode(item)
+      })
+      children = ls.filter(item => item !== null) as Bookmarks[]
+    }
+
+    const doc: Bookmarks = { key, type, name, href, icon, path }
+    if (children.length) doc.children = children
+    return doc
+  }
+
+  arr.forEach(item => {
+    const child = parseNode(item)
+    if (child) root.push(child)
+  })
+
+  return root
+}
+
+// 删除单个书签
 const deleteBM = (data: Bookmarks[], val: Bookmarks): Bookmarks[] => {
   const key = val.key
   const arr = [...data]
@@ -161,7 +180,6 @@ const deleteBM = (data: Bookmarks[], val: Bookmarks): Bookmarks[] => {
     for (let i = 0; i < child.length; i++) {
       if (child[i].key === key) {
         child.splice(i, 1)
-        console.log('=== find ===', i, child[i].key, key)
         return child
       } else {
         const cd = child[i].children
@@ -169,19 +187,45 @@ const deleteBM = (data: Bookmarks[], val: Bookmarks): Bookmarks[] => {
       }
     }
   }
+  deleteItem(arr)
+  return arr
+}
 
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i].key === key) {
-      console.log('=== find ===', i, arr[i].key, key)
-      arr.splice(i, 1)
-      return arr
-    } else {
-      const child = arr[i].children
-      if (child) deleteItem(child)
+// 移动书签到其他目录
+const moveBM = (data: Bookmarks[], key: string, val: Bookmarks): Bookmarks[] => {
+  let arr = [...data]
+  arr = deleteBM(arr, val)
+  function addItem (child: Bookmarks[]) {
+    child.forEach(item => {
+      if (item.key === key) {
+        if (item.children) item.children.push(val)
+      } else {
+        if (item.children) addItem(item.children)
+      }
+    })
+  }
+  addItem(arr)
+  return arr
+}
+
+// 通过书签的路径，获取父目录的 key
+const getFolderKey = (data: Bookmarks[], path: string): string => {
+  const arr = [...data]
+  let key = ''
+  const p = path.substr(0, path.length - 1)
+  function findItem (child: Bookmarks[]) {
+    for (let i = 0; i < child.length; i++) {
+      if (child[i].path === p) {
+        key = child[i].key
+        return key
+      } else {
+        const cd = child[i].children
+        if (cd) findItem(cd)
+      }
     }
   }
-
-  return arr
+  findItem(arr)
+  return key
 }
 
 const toHTML = (): string => {
@@ -197,7 +241,10 @@ export {
   toJSON,
   updateJSON,
   getFlatList,
+  getFolderTree,
+  getFolderKey,
   deleteBM,
+  moveBM,
   toHTML,
   getRepeat
 }
