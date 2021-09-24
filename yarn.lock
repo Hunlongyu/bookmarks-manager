@@ -928,10 +928,10 @@
     ajv "^6.12.0"
     ajv-keywords "^3.4.1"
 
-"@electron/get@^1.0.1":
+"@electron/get@^1.13.0":
   version "1.13.0"
-  resolved "https://registry.nlark.com/@electron/get/download/@electron/get-1.13.0.tgz#95c6bcaff4f9a505ea46792424f451efea89228c"
-  integrity sha1-lca8r/T5pQXqRnkkJPRR7+qJIow=
+  resolved "https://registry.npmjs.org/@electron/get/-/get-1.13.0.tgz#95c6bcaff4f9a505ea46792424f451efea89228c"
+  integrity sha512-+SjZhRuRo+STTO1Fdhzqnv9D2ZhjxXP6egsJ9kiO8dtP68cDx7dFCwWi64dlMQV7sWcfW1OYCW4wviEBzmRsfQ==
   dependencies:
     debug "^4.1.1"
     env-paths "^2.2.0"
@@ -4320,12 +4320,12 @@ electron-to-chromium@^1.3.830:
   resolved "https://registry.nlark.com/electron-to-chromium/download/electron-to-chromium-1.3.840.tgz?cache=0&sync_timestamp=1631773168352&other_urls=https%3A%2F%2Fregistry.nlark.com%2Felectron-to-chromium%2Fdownload%2Felectron-to-chromium-1.3.840.tgz#3f2a1df97015d9b1db5d86a4c6bd4cdb920adcbb"
   integrity sha1-Pyod+XAV2bHbXYakxr1M25IK3Ls=
 
-electron@^14.0.0:
-  version "14.0.1"
-  resolved "https://registry.npmjs.org/electron/-/electron-14.0.1.tgz#967da47895a77a9af8a7938e9266cd4a75ab24c4"
-  integrity sha512-1XILvfE5mQEBz5L/QeNfcwC3PxAIjwMyA3GR8Naw5C0IKAnHl3lAdjczbtGX8nqbcEpOAVo+4TMSpcPD3zxe8Q==
+electron@^15.0.0:
+  version "15.0.0"
+  resolved "https://registry.npmjs.org/electron/-/electron-15.0.0.tgz#b1b6244b1cffddf348c27c54b1310b3a3680246e"
+  integrity sha512-LlBjN5nCJoC7EDrgfDQwEGSGSAo/o08nSP5uJxN2m+ZtNA69SxpnWv4yPgo1K08X/iQPoGhoZu6C8LYYlk1Dtg==
   dependencies:
-    "@electron/get" "^1.0.1"
+    "@electron/get" "^1.13.0"
     "@types/node" "^14.6.2"
     extract-zip "^1.0.3"
 
@@ -7328,10 +7328,10 @@ mz@^2.4.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-naive-ui@^2.18.2:
-  version "2.18.2"
-  resolved "https://registry.npmjs.org/naive-ui/-/naive-ui-2.18.2.tgz#82933bb51ebd44f433075ee77bce3b79faab6139"
-  integrity sha512-BiVq9ME4+zp2DOhqpnkQLBAE69T6x4OqImZ6FLoNs0HgvP8r8nq4+fumdxHWi7bp+QaLVIXkHh8Bb3IP4Gl1KA==
+naive-ui@^2.19.1:
+  version "2.19.1"
+  resolved "https://registry.npmjs.org/naive-ui/-/naive-ui-2.19.1.tgz#7dc39676ca0b0da1aacee6127f466ae63446700e"
+  integrity sha512-BvwsgBOMF9Lg+WDZ8+lOmz44JVmnEyLdtzR5oxSot9Sk7UrFpNPTajk6pt6mDx5tpZIwY/r5tgJGI7Vc5hEUhQ==
   dependencies:
     "@css-render/plugin-bem" "^0.15.6"
     "@css-render/vue3-ssr" "^0.15.6"
@@ -7346,7 +7346,7 @@ naive-ui@^2.18.2:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
     seemly "^0.3.1"
-    treemate "^0.3.4"
+    treemate "^0.3.8"
     vdirs "^0.1.4"
     vfonts "^0.1.0"
     vooks "^0.2.6"
@@ -7357,12 +7357,7 @@ nan@^2.12.1:
   resolved "https://registry.nlark.com/nan/download/nan-2.15.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fnan%2Fdownload%2Fnan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha1-PzSkc/8Y4VwbVia2KQO1rW5mX+4=
 
-nanoid@^3.1.23:
-  version "3.1.25"
-  resolved "https://registry.nlark.com/nanoid/download/nanoid-3.1.25.tgz#09ca32747c0e543f0e1814b7d3793477f9c8e152"
-  integrity sha1-CcoydHwOVD8OGBS303k0d/nI4VI=
-
-nanoid@^3.1.25:
+nanoid@^3.1.23, nanoid@^3.1.25:
   version "3.1.25"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.1.25.tgz#09ca32747c0e543f0e1814b7d3793477f9c8e152"
   integrity sha512-rdwtIXaXCLFAQbnfqDRnI6jaRHp9fTcYBjtFKE8eezcZ7LuLjhUaQGNeMXf1HmRoCH32CLz6XwX0TtxEOS/A3Q==
@@ -10149,10 +10144,10 @@ tough-cookie@~2.5.0:
     psl "^1.1.28"
     punycode "^2.1.1"
 
-treemate@^0.3.4:
-  version "0.3.5"
-  resolved "https://registry.npmjs.org/treemate/-/treemate-0.3.5.tgz#6fcecedc587b89814de23686c10c10d687b0199f"
-  integrity sha512-lg9Xu6urOjIX1hI8AZ2sYwI8tFEqWMmivpT+p/oNdJqIOwrsCEp7whRRovsjU+HPC1WPkHXsfR3mzoXR6TfLmA==
+treemate@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.npmjs.org/treemate/-/treemate-0.3.8.tgz#791c0cd6eae5bdbd2cd04013429385f5366fdff4"
+  integrity sha512-wv9lBoPaeWsOgBSX09cpDi1HcO/A3aNfY+Qhvu8JnOSvVfSTmcXMKGrg9g8oTgWA8YLVqq+wt8p+eQvAhqKqlQ==
 
 truncate-utf8-bytes@^1.0.0:
   version "1.0.2"
