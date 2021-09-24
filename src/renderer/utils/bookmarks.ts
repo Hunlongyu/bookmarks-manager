@@ -1,5 +1,9 @@
 import * as cheerio from 'cheerio'
+import axios from 'axios'
 import { nanoid } from 'nanoid'
+import mitt from 'mitt'
+import { Generator } from './tool'
+const emitter = mitt()
 
 export interface Bookmarks {
   key: string
@@ -233,6 +237,7 @@ const toHTML = (): string => {
   return HEADER
 }
 
+// 获取重复的书签
 const getRepeat = (data: Bookmarks[]): Bookmarks[] => {
   const arr = [...data]
   const repeatArr: Bookmarks[] = []
@@ -261,7 +266,58 @@ const getRepeat = (data: Bookmarks[]): Bookmarks[] => {
   return repeatArr
 }
 
+export interface Progress {
+  total: number
+  pass: number
+  passP: number
+  fail: number
+  failP: number
+}
+export let progress: Progress = {
+  total: 0,
+  pass: 0,
+  passP: 0,
+  fail: 0,
+  failP: 0
+}
+const gen = new Generator()
+const getInvalid = async (data: Bookmarks[]): Promise<Bookmarks[]> => {
+  const arr = [...data]
+  progress = { total: arr.length, pass: 0, passP: 0, fail: 0, failP: 0 }
+  const invalidArr: Bookmarks[] = []
+  const arry:Promise<any>[] = []
+  for (const i of arr) {
+    const fn = () => {
+      const url = i.href
+      return axios.get(url)
+    }
+    arry.push(fn as any)
+  }
+  gen.created(arry as any)
+  gen.run((p) => { emitter.emit('url-check-invalid', p) }, (p) => { emitter.emit('url-check-end', p) })
+  // for (const i of arr) {
+  //   const url = i.href
+  //   await axios.get(url).then(() => {
+  //     progress.pass++
+  //     const p = ((progress.pass / progress.total) * 100).toFixed(2)
+  //     progress.passP = Number(p)
+  //   }).catch(() => {
+  //     progress.fail++
+  //     const p = ((progress.fail / progress.total) * 100).toFixed(2)
+  //     progress.failP = Number(p)
+  //     invalidArr.push(i)
+  //   }).finally(() => {
+  //     emitter.emit('url-check-invalid', progress)
+  //     if (progress.pass + progress.fail === progress.total) {
+  //       emitter.emit('url-check-end', progress)
+  //     }
+  //   })
+  // }
+  return invalidArr
+}
+
 export {
+  emitter,
   toJSON,
   updateJSON,
   getFlatList,
@@ -270,5 +326,6 @@ export {
   deleteBM,
   moveBM,
   toHTML,
-  getRepeat
+  getRepeat,
+  getInvalid
 }

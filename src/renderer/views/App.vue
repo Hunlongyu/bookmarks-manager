@@ -43,17 +43,15 @@
     </n-modal>
     <n-drawer
       v-model:show="invalidShow"
-      width="60%"
+      width="90%"
       placement="right">
       <n-drawer-content title="检测失效链接">
         <div class="state">
-          <n-progress type="line" status="info" :percentage="progress.onep">有效: {{progress.one}}</n-progress>
-          <n-progress type="line" status="warning" :percentage="progress.twop">未知: {{progress.two}}</n-progress>
-          <n-progress type="line" status="error" :percentage="progress.three">失效: {{progress.threep}}</n-progress>
+          <n-progress type="line" status="info" :percentage="progress.passP">有效: {{progress.pass}} / {{progress.total}}</n-progress>
+          <n-progress type="line" status="warning" :percentage="progress.failP">失效: {{progress.fail}} / {{progress.total}}</n-progress>
         </div>
         <div class="table">
-          可以访问，可能是你网络问题，可以的话，尝试翻墙访问。
-          <n-data-table :columns="columns" :data="invalid" max-height="100%" size="small"/>
+          <n-data-table :columns="flatColumns" :data="invalidData" max-height="100%" size="small"/>
         </div>
       </n-drawer-content>
     </n-drawer>
@@ -62,9 +60,9 @@
 
 <script lang="ts" setup>
 import Frame from '@/renderer/components/Frame.vue'
-import { ref, h, reactive } from 'vue'
+import { ref, h, reactive, onMounted } from 'vue'
 import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect, NDrawer, NDrawerContent, NProgress } from 'naive-ui'
-import { toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat } from '@/renderer/utils/bookmarks'
+import { toJSON, Progress, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat, getInvalid, emitter } from '@/renderer/utils/bookmarks'
 import { TableColumns } from 'naive-ui/lib/data-table/src/interface'
 
 const filePath = ref('')
@@ -258,20 +256,38 @@ function checkRepeatBM () {
   }
 }
 
-const invalidShow = ref(true)
-const progress = reactive({
-  one: 0,
-  onep: 0,
-  two: 0,
-  twop: 0,
-  three: 20,
-  threep: 2
+const invalidShow = ref(false)
+const progress = ref({
+  total: 0,
+  pass: 0,
+  passP: 0,
+  fail: 0,
+  failP: 0
 })
-const invalid = ref<TableColumns<Bookmarks>>()
+const invalidData = ref()
+const start = ref(false)
 // 检测失效书签
-function checkInvalidBM () {
+async function checkInvalidBM () {
+  if (!flatData.value) return false
   invalidShow.value = true
+  if (!start.value) {
+    progress.value = { total: 0, pass: 0, passP: 0, fail: 0, failP: 0 }
+    invalidData.value = await getInvalid(flatData.value)
+    start.value = true
+  }
 }
+
+onMounted(() => {
+  emitter.on('url-check-invalid', e => {
+    console.log('lalallalal ===', e)
+    progress.value = e as Progress
+  })
+  emitter.on('url-check-end', (e) => {
+    progress.value = e as Progress
+    start.value = false
+    console.log('============================= end ===============================')
+  })
+})
 </script>
 
 <style lang="scss">
