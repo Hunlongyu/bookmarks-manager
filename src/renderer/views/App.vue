@@ -8,10 +8,10 @@
       </n-input-group>
       <n-switch v-model:value="tableSwitch" @update:value="changeTableType"></n-switch>
       <n-button class="repeat" :type="repeatShow ? 'primary' : 'default'" :ghost="!repeatShow" @click="checkRepeatBM">检测重复链接</n-button>
-      <n-button class="invalid" ghost>检测失效链接</n-button>
+      <n-button class="invalid" ghost @click="checkInvalidBM">检测失效链接</n-button>
       <n-button class="invalid" type="info" ghost>保存</n-button>
     </div>
-    <div class="main-content">
+    <div class="main-content" id="body">
       <div class="main-content-wrapper">
         <n-data-table :columns="columns" :data="data" max-height="100%" size="small" v-if="!flat && !repeatShow"/>
         <n-data-table :columns="flatColumns" :data="flatData" max-height="100%" virtual-scroll :pagination="pagination" v-if="flat && !repeatShow" size="small" />
@@ -33,6 +33,7 @@
             <n-input v-model:value="model.href" @keydown.enter.prevent />
           </n-form-item>
         </n-form>
+        <label>Path</label>
         <n-tree-select :options="tree" label-field="name" default-expand-all clearable v-model:value="selectTree" />
       </div>
       <template #action>
@@ -40,14 +41,31 @@
         <n-button size="small" @click="updateData">确定</n-button>
       </template>
     </n-modal>
+    <n-drawer
+      v-model:show="invalidShow"
+      width="60%"
+      placement="right">
+      <n-drawer-content title="检测失效链接">
+        <div class="state">
+          <n-progress type="line" status="info" :percentage="progress.onep">有效: {{progress.one}}</n-progress>
+          <n-progress type="line" status="warning" :percentage="progress.twop">未知: {{progress.two}}</n-progress>
+          <n-progress type="line" status="error" :percentage="progress.three">失效: {{progress.threep}}</n-progress>
+        </div>
+        <div class="table">
+          可以访问，可能是你网络问题，可以的话，尝试翻墙访问。
+          <n-data-table :columns="columns" :data="invalid" max-height="100%" size="small"/>
+        </div>
+      </n-drawer-content>
+    </n-drawer>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Frame from '@/renderer/components/Frame.vue'
 import { ref, h, reactive } from 'vue'
-import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect } from 'naive-ui'
+import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect, NDrawer, NDrawerContent, NProgress } from 'naive-ui'
 import { toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat } from '@/renderer/utils/bookmarks'
+import { TableColumns } from 'naive-ui/lib/data-table/src/interface'
 
 const filePath = ref('')
 
@@ -55,57 +73,56 @@ const tableSwitch = ref(false)
 const flat = ref(false)
 const data = ref()
 const flatData = ref()
-const createColumns = () => {
-  return [
-    { type: 'selection' },
-    {
-      title: 'Type',
-      render (row: Bookmarks) {
-        if (row.type === 'folder') {
-          return h('span', 'Folder')
-        }
-        if (row.type === 'site') {
-          return h('span', 'Site')
-        }
+
+const columns = ref<TableColumns<Bookmarks>>([
+  { type: 'selection' },
+  {
+    title: 'Type',
+    key: 'key',
+    render (row) {
+      if (row.type === 'folder') {
+        return h('span', 'Folder')
       }
-    },
-    {
-      title: 'icon',
-      key: 'icon',
-      width: 60,
-      render (row: Bookmarks) {
-        return h(
-          NImage,
-          {
-            src: row.icon
-          }
-        )
-      }
-    },
-    { title: 'name', key: 'name', ellipsis: { tooltip: true } },
-    { title: 'href', key: 'href', ellipsis: { tooltip: true } },
-    {
-      title: 'Action',
-      key: 'actions',
-      width: 200,
-      render (row: Bookmarks) {
-        const openBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => openBtnClick(row) }, { default: () => 'Open' })
-        const editBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => editBtnClick(row) }, { default: () => 'Edit' })
-        const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => deleteBtnClick(row), type: 'error' }, { default: () => 'Delete' })
-        const btns = []
-        if (row.type === 'folder') {
-          btns.push(deleteBtn)
-        }
-        if (row.type === 'site') {
-          btns.push(openBtn, editBtn, deleteBtn)
-        }
-        return btns
+      if (row.type === 'site') {
+        return h('span', 'Site')
       }
     }
-  ]
-}
-const columns = createColumns()
-const flatColumns = [
+  },
+  {
+    title: 'icon',
+    key: 'icon',
+    width: 60,
+    render (row) {
+      return h(
+        NImage,
+        {
+          src: row.icon
+        }
+      )
+    }
+  },
+  { title: 'name', key: 'name', ellipsis: { tooltip: true } },
+  { title: 'href', key: 'href', ellipsis: { tooltip: true } },
+  {
+    title: 'Action',
+    key: 'actions',
+    width: 200,
+    render (row) {
+      const openBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => openBtnClick(row) }, { default: () => 'Open' })
+      const editBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => editBtnClick(row) }, { default: () => 'Edit' })
+      const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => deleteBtnClick(row), type: 'error' }, { default: () => 'Delete' })
+      const btns = []
+      if (row.type === 'folder') {
+        btns.push(deleteBtn)
+      }
+      if (row.type === 'site') {
+        btns.push(openBtn, editBtn, deleteBtn)
+      }
+      return btns
+    }
+  }
+])
+const flatColumns = ref<TableColumns<Bookmarks>>([
   { type: 'selection' },
   {
     title: 'icon',
@@ -141,7 +158,7 @@ const flatColumns = [
       return btns
     }
   }
-]
+])
 const pagination = reactive({
   page: 1,
   pageSize: 50,
@@ -239,6 +256,21 @@ function checkRepeatBM () {
       repeatData.value = getRepeat(flatData.value)
     }
   }
+}
+
+const invalidShow = ref(true)
+const progress = reactive({
+  one: 0,
+  onep: 0,
+  two: 0,
+  twop: 0,
+  three: 20,
+  threep: 2
+})
+const invalid = ref<TableColumns<Bookmarks>>()
+// 检测失效书签
+function checkInvalidBM () {
+  invalidShow.value = true
 }
 </script>
 
