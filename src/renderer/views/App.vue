@@ -47,7 +47,7 @@
       placement="right">
       <n-drawer-content title="检测失效链接">
         <div class="state">
-          <n-progress type="line" status="info" :percentage="progress.passP">有效: {{progress.pass}} / {{progress.total}}</n-progress>
+          <n-progress type="line" status="info" :key="progress.pass" :percentage="progress.passP">有效: {{progress.pass}} / {{progress.total}}</n-progress>
           <n-progress type="line" status="warning" :percentage="progress.failP">失效: {{progress.fail}} / {{progress.total}}</n-progress>
         </div>
         <div class="table">
@@ -60,9 +60,9 @@
 
 <script lang="ts" setup>
 import Frame from '@/renderer/components/Frame.vue'
-import { ref, h, reactive, onMounted } from 'vue'
+import { ref, h, reactive, nextTick } from 'vue'
 import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect, NDrawer, NDrawerContent, NProgress } from 'naive-ui'
-import { toJSON, Progress, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat, getInvalid, emitter } from '@/renderer/utils/bookmarks'
+import { toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat, getInvalid, getProgress, getInvalidArr } from '@/renderer/utils/bookmarks'
 import { TableColumns } from 'naive-ui/lib/data-table/src/interface'
 
 const filePath = ref('')
@@ -257,7 +257,7 @@ function checkRepeatBM () {
 }
 
 const invalidShow = ref(false)
-const progress = ref({
+let progress = reactive({
   total: 0,
   pass: 0,
   passP: 0,
@@ -266,28 +266,33 @@ const progress = ref({
 })
 const invalidData = ref()
 const start = ref(false)
+
+let timer = 0
 // 检测失效书签
 async function checkInvalidBM () {
   if (!flatData.value) return false
   invalidShow.value = true
   if (!start.value) {
-    progress.value = { total: 0, pass: 0, passP: 0, fail: 0, failP: 0 }
-    invalidData.value = await getInvalid(flatData.value)
-    start.value = true
+    progress = { total: 0, pass: 0, passP: 0, fail: 0, failP: 0 }
+    timerGetInfo()
+    await getInvalid(flatData.value)
+    console.log('await end')
+    progress = getProgress()
+    invalidData.value = getInvalidArr()
+    clearInterval(timer)
+    start.value = false
   }
 }
 
-onMounted(() => {
-  emitter.on('url-check-invalid', e => {
-    console.log('lalallalal ===', e)
-    progress.value = e as Progress
-  })
-  emitter.on('url-check-end', (e) => {
-    progress.value = e as Progress
-    start.value = false
-    console.log('============================= end ===============================')
-  })
-})
+function timerGetInfo () {
+  timer = window.setInterval(async () => {
+    await nextTick()
+    progress = getProgress()
+    console.log('progress', progress)
+    invalidData.value = getInvalidArr()
+    console.log('progress', invalidData.value)
+  }, 1000)
+}
 </script>
 
 <style lang="scss">

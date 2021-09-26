@@ -1,9 +1,6 @@
 import * as cheerio from 'cheerio'
 import axios from 'axios'
 import { nanoid } from 'nanoid'
-import mitt from 'mitt'
-import { Generator } from './tool'
-const emitter = mitt()
 
 export interface Bookmarks {
   key: string
@@ -273,51 +270,42 @@ export interface Progress {
   fail: number
   failP: number
 }
-export let progress: Progress = {
+let progress: Progress = {
   total: 0,
   pass: 0,
   passP: 0,
   fail: 0,
   failP: 0
 }
-const gen = new Generator()
-const getInvalid = async (data: Bookmarks[]): Promise<Bookmarks[]> => {
+const invalidArr: Bookmarks[] = []
+const getInvalid = async (data: Bookmarks[]): Promise<void> => {
   const arr = [...data]
   progress = { total: arr.length, pass: 0, passP: 0, fail: 0, failP: 0 }
-  const invalidArr: Bookmarks[] = []
-  const arry:Promise<any>[] = []
   for (const i of arr) {
-    const fn = () => {
-      const url = i.href
-      return axios.get(url)
+    const url = i.href
+    try {
+      await axios.get(url)
+      progress.pass++
+      const p = ((progress.pass / progress.total) * 100).toFixed(2)
+      progress.passP = Number(p)
+    } catch (err) {
+      progress.fail++
+      const p = ((progress.fail / progress.total) * 100).toFixed(2)
+      progress.failP = Number(p)
+      invalidArr.push(i)
     }
-    arry.push(fn as any)
   }
-  gen.created(arry as any)
-  gen.run((p) => { emitter.emit('url-check-invalid', p) }, (p) => { emitter.emit('url-check-end', p) })
-  // for (const i of arr) {
-  //   const url = i.href
-  //   await axios.get(url).then(() => {
-  //     progress.pass++
-  //     const p = ((progress.pass / progress.total) * 100).toFixed(2)
-  //     progress.passP = Number(p)
-  //   }).catch(() => {
-  //     progress.fail++
-  //     const p = ((progress.fail / progress.total) * 100).toFixed(2)
-  //     progress.failP = Number(p)
-  //     invalidArr.push(i)
-  //   }).finally(() => {
-  //     emitter.emit('url-check-invalid', progress)
-  //     if (progress.pass + progress.fail === progress.total) {
-  //       emitter.emit('url-check-end', progress)
-  //     }
-  //   })
-  // }
+}
+
+const getProgress = (): Progress => {
+  return progress
+}
+
+const getInvalidArr = (): Bookmarks[] => {
   return invalidArr
 }
 
 export {
-  emitter,
   toJSON,
   updateJSON,
   getFlatList,
@@ -327,5 +315,7 @@ export {
   moveBM,
   toHTML,
   getRepeat,
-  getInvalid
+  getInvalid,
+  getProgress,
+  getInvalidArr
 }
