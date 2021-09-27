@@ -1,6 +1,8 @@
 import * as cheerio from 'cheerio'
 import axios from 'axios'
 import { nanoid } from 'nanoid'
+import mitt from 'mitt'
+const emitter = mitt()
 
 export interface Bookmarks {
   key: string
@@ -288,24 +290,20 @@ const getInvalid = async (data: Bookmarks[]): Promise<void> => {
       progress.pass++
       const p = ((progress.pass / progress.total) * 100).toFixed(2)
       progress.passP = Number(p)
+      emitter.emit('bookmark-check-pass', progress)
     } catch (err) {
       progress.fail++
       const p = ((progress.fail / progress.total) * 100).toFixed(2)
       progress.failP = Number(p)
       invalidArr.push(i)
+      emitter.emit('bookmark-check-fail', progress)
     }
   }
-}
-
-const getProgress = (): Progress => {
-  return progress
-}
-
-const getInvalidArr = (): Bookmarks[] => {
-  return invalidArr
+  emitter.emit('bookmark-check-end', invalidArr)
 }
 
 export {
+  emitter,
   toJSON,
   updateJSON,
   getFlatList,
@@ -315,7 +313,5 @@ export {
   moveBM,
   toHTML,
   getRepeat,
-  getInvalid,
-  getProgress,
-  getInvalidArr
+  getInvalid
 }

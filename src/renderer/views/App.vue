@@ -47,11 +47,12 @@
       placement="right">
       <n-drawer-content title="检测失效链接">
         <div class="state">
-          <n-progress type="line" status="info" :key="progress.pass" :percentage="progress.passP">有效: {{progress.pass}} / {{progress.total}}</n-progress>
+          扫描时间：{{(timeend / 1000).toFixed(2)}} s
+          <n-progress :key="progress.pass" type="line" status="info" :percentage="progress.passP">有效: {{progress.pass}} / {{progress.total}}</n-progress>
           <n-progress type="line" status="warning" :percentage="progress.failP">失效: {{progress.fail}} / {{progress.total}}</n-progress>
         </div>
         <div class="table">
-          <n-data-table :columns="flatColumns" :data="invalidData" max-height="100%" size="small"/>
+          <n-data-table :loading="invalidLoading" :columns="flatColumns" :data="invalidData" max-height="100%" size="small"/>
         </div>
       </n-drawer-content>
     </n-drawer>
@@ -60,9 +61,9 @@
 
 <script lang="ts" setup>
 import Frame from '@/renderer/components/Frame.vue'
-import { ref, h, reactive, nextTick } from 'vue'
+import { ref, h, reactive, onMounted } from 'vue'
 import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect, NDrawer, NDrawerContent, NProgress } from 'naive-ui'
-import { toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat, getInvalid, getProgress, getInvalidArr } from '@/renderer/utils/bookmarks'
+import { emitter, Progress, toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat, getInvalid } from '@/renderer/utils/bookmarks'
 import { TableColumns } from 'naive-ui/lib/data-table/src/interface'
 
 const filePath = ref('')
@@ -257,42 +258,51 @@ function checkRepeatBM () {
 }
 
 const invalidShow = ref(false)
-let progress = reactive({
+
+const progress = ref<Progress>({
   total: 0,
   pass: 0,
   passP: 0,
   fail: 0,
   failP: 0
 })
-const invalidData = ref()
+const timestar = ref(0)
+const timeend = ref(0)
+
+const invalidLoading = ref(true)
+
+const invalidData = ref<Bookmarks[]>([])
 const start = ref(false)
 
-let timer = 0
 // 检测失效书签
 async function checkInvalidBM () {
   if (!flatData.value) return false
   invalidShow.value = true
   if (!start.value) {
-    progress = { total: 0, pass: 0, passP: 0, fail: 0, failP: 0 }
-    timerGetInfo()
+    start.value = true
+    timestar.value = new Date().getTime()
+    invalidLoading.value = true
     await getInvalid(flatData.value)
+    invalidLoading.value = false
     console.log('await end')
-    progress = getProgress()
-    invalidData.value = getInvalidArr()
-    clearInterval(timer)
-    start.value = false
+    // start.value = false
   }
 }
 
-function timerGetInfo () {
-  timer = window.setInterval(async () => {
-    await nextTick()
-    progress = getProgress()
-    console.log('progress', progress)
-    invalidData.value = getInvalidArr()
-    console.log('progress', invalidData.value)
-  }, 1000)
-}
+onMounted(() => {
+  emitter.on('bookmark-check-pass', e => {
+    progress.value = e as Progress
+    timeend.value = new Date().getTime() - timestar.value
+  })
+  emitter.on('bookmark-check-fail', e => {
+    progress.value = e as Progress
+    timeend.value = new Date().getTime() - timestar.value
+  })
+  emitter.on('bookmark-check-end', async e => {
+    invalidData.value = await e as Bookmarks[]
+    timeend.value = new Date().getTime() - timestar.value
+  })
+})
 </script>
 
 <style lang="scss">
