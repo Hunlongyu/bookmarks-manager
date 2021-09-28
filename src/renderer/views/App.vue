@@ -238,11 +238,26 @@ function updateData () {
   }
   showEditItemModle.value = false
 }
+
+function deleteInvalidBM (data: Bookmarks[], row: Bookmarks) {
+  const arr = [...data]
+  const key = row.key
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].key === key) {
+      arr.splice(i, 1)
+    }
+  }
+  return arr
+}
+
 // 删除书签
 function deleteBtnClick (row: Bookmarks) {
   data.value = deleteBM(data.value, row)
   flatData.value = getFlatList(data.value)
   repeatData.value = getRepeat(flatData.value)
+  if (invalidData.value.length > 0) {
+    invalidData.value = deleteInvalidBM(invalidData.value, row)
+  }
 }
 
 // 检测重复书签
@@ -284,8 +299,6 @@ async function checkInvalidBM () {
     invalidLoading.value = true
     await getInvalid(flatData.value)
     invalidLoading.value = false
-    console.log('await end')
-    // start.value = false
   }
 }
 
