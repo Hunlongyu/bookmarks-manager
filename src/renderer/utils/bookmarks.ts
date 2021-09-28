@@ -14,14 +14,6 @@ export interface Bookmarks {
   children?: Bookmarks[]
 }
 
-const HEADER = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
-<!-- This is an automatically generated file.
-     It will be read and overwritten.
-     DO NOT EDIT! -->
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
-<TITLE>Bookmarks</TITLE>
-<H1>Bookmarks</H1>`
-
 // 获取不同浏览器的书签内容
 const getRootFolder = (body: cheerio.Cheerio<cheerio.Element>) => {
   const h3 = body.find('h3').first()
@@ -194,6 +186,26 @@ const deleteBM = (data: Bookmarks[], val: Bookmarks): Bookmarks[] => {
   return arr
 }
 
+// 批量删除书签
+const batchDeleteBM = (data: Bookmarks[], keys: string[]): Bookmarks[] => {
+  const arr = [...data]
+  function deleteItem (child: Bookmarks[], key: string) {
+    for (let i = 0; i < child.length; i++) {
+      if (child[i].key === key) {
+        child.splice(i, 1)
+        return child
+      } else {
+        const cd = child[i].children
+        if (cd) deleteItem(cd, key)
+      }
+    }
+  }
+  for (const i of keys) {
+    deleteItem(arr, i)
+  }
+  return arr
+}
+
 // 移动书签到其他目录
 const moveBM = (data: Bookmarks[], key: string, val: Bookmarks): Bookmarks[] => {
   let arr = [...data]
@@ -229,11 +241,6 @@ const getFolderKey = (data: Bookmarks[], path: string): string => {
   }
   findItem(arr)
   return key
-}
-
-const toHTML = (): string => {
-  console.log('toHTML')
-  return HEADER
 }
 
 // 获取重复的书签
@@ -302,6 +309,10 @@ const getInvalid = async (data: Bookmarks[]): Promise<void> => {
   emitter.emit('bookmark-check-end', invalidArr)
 }
 
+const toHtml = (data: Bookmarks[]): string => {
+  return 'bookmarked(data)'
+}
+
 export {
   emitter,
   toJSON,
@@ -311,7 +322,8 @@ export {
   getFolderKey,
   deleteBM,
   moveBM,
-  toHTML,
   getRepeat,
-  getInvalid
+  getInvalid,
+  batchDeleteBM,
+  toHtml
 }

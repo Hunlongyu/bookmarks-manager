@@ -4,55 +4,67 @@
     <div class="main-header">
       <n-input-group>
         <n-input :style="{ width: '50%' }" :value="filePath" />
-        <n-button ghost @click="selectBookmarksFile">选择书签文件</n-button>
+        <n-button ghost @click="selectBookmarksFile">{{t('selectBookmarksFile')}}</n-button>
       </n-input-group>
       <n-switch v-model:value="tableSwitch" @update:value="changeTableType"></n-switch>
-      <n-button class="repeat" :type="repeatShow ? 'primary' : 'default'" :ghost="!repeatShow" @click="checkRepeatBM">检测重复链接</n-button>
-      <n-button class="invalid" ghost @click="checkInvalidBM">检测失效链接</n-button>
-      <n-button class="invalid" type="info" ghost>保存</n-button>
+      <n-button class="repeat" :type="repeatShow ? 'primary' : 'default'" :ghost="!repeatShow" @click="checkRepeatBM">{{t('checkRepeatBookmarks')}}</n-button>
+      <n-button class="invalid" ghost @click="checkInvalidBM">{{t('checkInvalidBookmarks')}}</n-button>
+      <n-button class="invalid" @click="saveEvent" type="info" ghost>{{t('save')}}</n-button>
     </div>
     <div class="main-content" id="body">
       <div class="main-content-wrapper">
-        <n-data-table :columns="columns" :data="data" max-height="100%" size="small" v-if="!flat && !repeatShow"/>
-        <n-data-table :columns="flatColumns" :data="flatData" max-height="100%" virtual-scroll :pagination="pagination" v-if="flat && !repeatShow" size="small" />
-        <n-data-table :columns="flatColumns" :data="repeatData" max-height="100%" virtual-scroll v-if="repeatShow" size="small" />
+        <n-data-table @update:checked-row-keys="handleCheck" :columns="columns" :data="data" max-height="100%" size="small" v-if="!flat && !repeatShow"/>
+        <n-data-table @update:checked-row-keys="handleCheck" :columns="flatColumns" :data="flatData" max-height="100%" virtual-scroll :pagination="pagination" v-if="flat && !repeatShow" size="small" />
+        <n-data-table @update:checked-row-keys="handleCheck" :columns="flatColumns" :data="repeatData" max-height="100%" virtual-scroll v-if="repeatShow" size="small" />
       </div>
     </div>
     <div class="main-footer">
-      <n-button>批量删除选中书签或目录</n-button>
+      <n-button @click="batchDeleteEvent">{{t('batchDelete')}}</n-button>
+      <n-button @click="configShow = true">{{t('setting')}}</n-button>
     </div>
     <div class="main-file"></div>
     <n-modal v-model:show="showEditItemModle" preset="dialog">
       <template #header>Edit</template>
       <div>
         <n-form :model="model" :rules="rules">
-          <n-form-item path="name" label="Name">
+          <n-form-item path="name" :label="t('tbName')">
             <n-input v-model:value="model.name" @keydown.enter.prevent />
           </n-form-item>
-          <n-form-item path="href" label="Href">
+          <n-form-item path="href" :label="t('tbHref')">
             <n-input v-model:value="model.href" @keydown.enter.prevent />
           </n-form-item>
         </n-form>
-        <label>Path</label>
+        <label>{{t('tbPath')}}</label>
         <n-tree-select :options="tree" label-field="name" default-expand-all clearable v-model:value="selectTree" />
       </div>
       <template #action>
-        <n-button size="small" @click="showEditItemModle === false">取消</n-button>
-        <n-button size="small" @click="updateData">确定</n-button>
+        <n-button size="small" @click="showEditItemModle === false">{{t('cancel')}}</n-button>
+        <n-button size="small" @click="updateData">{{t('confirm')}}</n-button>
       </template>
     </n-modal>
     <n-drawer
       v-model:show="invalidShow"
       width="90%"
       placement="right">
-      <n-drawer-content title="检测失效链接">
+      <n-drawer-content :title="t('checkInvalidBookmarks')">
         <div class="state">
-          扫描时间：{{(timeend / 1000).toFixed(2)}} s
-          <n-progress :key="progress.pass" type="line" status="info" :percentage="progress.passP">有效: {{progress.pass}} / {{progress.total}}</n-progress>
-          <n-progress type="line" status="warning" :percentage="progress.failP">失效: {{progress.fail}} / {{progress.total}}</n-progress>
+          {{t('scanTime')}}{{(timeend / 1000).toFixed(2)}} s
+          <n-progress :key="progress.pass" type="line" status="info" :percentage="progress.passP">{{t('effective')}}: {{progress.pass}} / {{progress.total}}</n-progress>
+          <n-progress type="line" status="warning" :percentage="progress.failP">{{t('invalid')}}: {{progress.fail}} / {{progress.total}}</n-progress>
         </div>
         <div class="table">
           <n-data-table :loading="invalidLoading" :columns="flatColumns" :data="invalidData" max-height="100%" size="small"/>
+        </div>
+      </n-drawer-content>
+    </n-drawer>
+    <n-drawer
+      v-model:show="configShow"
+      width="40%"
+      placement="right">
+      <n-drawer-content :title="t('setting')">
+        <div class="language">
+          {{t('language')}}:
+          <n-select v-model:value="language" :options="languageList" @update:value="changeLanguage" />
         </div>
       </n-drawer-content>
     </n-drawer>
@@ -62,9 +74,12 @@
 <script lang="ts" setup>
 import Frame from '@/renderer/components/Frame.vue'
 import { ref, h, reactive, onMounted } from 'vue'
-import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect, NDrawer, NDrawerContent, NProgress } from 'naive-ui'
-import { emitter, Progress, toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat, getInvalid } from '@/renderer/utils/bookmarks'
+import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect, NDrawer, NDrawerContent, NProgress, NSelect } from 'naive-ui'
+import { emitter, Progress, toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat, getInvalid, batchDeleteBM, toHtml } from '@/renderer/utils/bookmarks'
 import { TableColumns } from 'naive-ui/lib/data-table/src/interface'
+import localforage from 'localforage'
+import { useI18n } from 'vue-i18n'
+const { locale, t } = useI18n()
 
 const filePath = ref('')
 
@@ -239,6 +254,23 @@ function updateData () {
   showEditItemModle.value = false
 }
 
+function saveEvent () {
+  const html = toHtml(data.value)
+  console.log(html, '=== html ===')
+}
+
+// 选中书签
+const checkedRowKeys = ref<string[]>([])
+// 选则书签事件
+function handleCheck (rowkeys: unknown) {
+  checkedRowKeys.value = rowkeys as string[]
+}
+// 批量删除选中书签
+function batchDeleteEvent () {
+  data.value = batchDeleteBM(data.value, checkedRowKeys.value)
+}
+
+// 删除失效书签
 function deleteInvalidBM (data: Bookmarks[], row: Bookmarks) {
   const arr = [...data]
   const key = row.key
@@ -302,7 +334,37 @@ async function checkInvalidBM () {
   }
 }
 
+const configShow = ref(false)
+const language = ref('zh-CN')
+const languageList = ref([
+  { label: '中文简体', value: 'zh-CN' },
+  { label: 'English', value: 'en-US' }
+])
+
+// 获取系统语言， 并设置默认语言
+function getSystemLanguage () {
+  window.api.invoke('event.tools.language')
+  window.api.on('event.tools.language_replay', async (e) => {
+    const lang = await localforage.getItem('language')
+    if (!lang) {
+      localforage.setItem('language', e)
+      language.value = e
+      locale.value = e
+    } else {
+      locale.value = lang as string
+      language.value = lang as string
+    }
+    window.api.removeAllListeners('event.tools.language_replay')
+  })
+}
+// 切换语言
+function changeLanguage (e: string) {
+  localforage.setItem('language', e)
+  locale.value = e
+}
+
 onMounted(() => {
+  getSystemLanguage()
   emitter.on('bookmark-check-pass', e => {
     progress.value = e as Progress
     timeend.value = new Date().getTime() - timestar.value
@@ -362,6 +424,7 @@ html,body{
     height: 50px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   .main-file{
     display: none;

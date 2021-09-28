@@ -1,4 +1,4 @@
-import { ipcMain, dialog } from 'electron'
+import { ipcMain, dialog, app } from 'electron'
 import { OpenDialogOptions } from 'electron/main'
 import { readFileSync } from 'fs'
 import win from '../../win'
@@ -11,4 +11,9 @@ ipcMain.handle('event.tools.bookmarks', (e, args: OpenDialogOptions) => {
     const content = readFileSync(path, { encoding: 'utf-8' })
     e.sender.send('event.tools.bookmarks_replay', { content, path })
   })
+})
+
+ipcMain.handle('event.tools.language', (e) => {
+  const lang = app.getLocale()
+  e.sender.send('event.tools.language_replay', lang)
 })

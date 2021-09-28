@@ -15,13 +15,13 @@ declare global {
 
 contextBridge.exposeInMainWorld('api', {
   invoke: (channel: string, data: any[]) => {
-    const whitelist = ['event.tools.bookmarks', 'event.win.dialog', 'event.win.os', 'event.win.mini', 'event.win.max', 'event.win.close']
+    const whitelist = ['event.tools.bookmarks', 'event.win.dialog', 'event.win.os', 'event.win.mini', 'event.win.max', 'event.win.close', 'event.tools.language']
     if (whitelist.includes(channel)) {
       ipcRenderer.invoke(channel, data)
     }
   },
   on: (channel: string, listener: (...args: any[]) => void) => {
-    const whitelist = ['event.tools.bookmarks_replay', 'event.win.dialog_replay', 'event.win.os_replay']
+    const whitelist = ['event.tools.bookmarks_replay', 'event.win.dialog_replay', 'event.win.os_replay', 'event.tools.language_replay']
     if (whitelist.includes(channel)) {
       ipcRenderer.on(channel, (event, ...args: any[]) => listener(...args))
     }
