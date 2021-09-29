@@ -287,6 +287,7 @@ let progress: Progress = {
   failP: 0
 }
 const invalidArr: Bookmarks[] = []
+// 获取失效的书签
 const getInvalid = async (data: Bookmarks[]): Promise<void> => {
   const arr = [...data]
   progress = { total: arr.length, pass: 0, passP: 0, fail: 0, failP: 0 }
@@ -308,9 +309,42 @@ const getInvalid = async (data: Bookmarks[]): Promise<void> => {
   }
   emitter.emit('bookmark-check-end', invalidArr)
 }
-
+// 格式化书签字符串
+const indent = (idx: number): string => ' '.repeat(idx * 2)
+// 将编辑好的书签导出
 const toHtml = (data: Bookmarks[]): string => {
-  return 'bookmarked(data)'
+  const arr = [...data]
+  let body = ''
+  let idx = 1
+  function createItem (child: Bookmarks[], n: number) {
+    idx++
+    let dom = ''
+    for (let i = 0; i < child.length; i++) {
+      if (child[i].type === 'site') {
+        dom += `${indent(n)}<DT><A HREF="${child[i].href}" ICON="${child[i].icon}">${child[i].name}</A>\n`
+      } else {
+        const cb = child[i].children
+        if (cb) {
+          const list = createItem(cb, idx)
+          dom += `${indent(n)}<DT><H3>${child[i].name}</H3>\n${indent(n)}<DL><p>\n${list}${indent(n)}</DL></p>\n`
+        }
+      }
+    }
+    return dom
+  }
+  body = createItem(arr, idx)
+  const html = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<!-- This is an automatically generated file.
+     It will be read and overwritten.
+     DO NOT EDIT! -->
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>书签菜单</H1>
+
+<DL><p>
+${body}
+<DL><p>`
+  return html
 }
 
 export {

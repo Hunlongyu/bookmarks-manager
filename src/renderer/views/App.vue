@@ -78,6 +78,7 @@ import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormI
 import { emitter, Progress, toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat, getInvalid, batchDeleteBM, toHtml } from '@/renderer/utils/bookmarks'
 import { TableColumns } from 'naive-ui/lib/data-table/src/interface'
 import localforage from 'localforage'
+import FileSaver from 'file-saver'
 import { useI18n } from 'vue-i18n'
 const { locale, t } = useI18n()
 
@@ -256,7 +257,8 @@ function updateData () {
 
 function saveEvent () {
   const html = toHtml(data.value)
-  console.log(html, '=== html ===')
+  const file = new File([html], 'bookmarks.html', { type: 'text/html;charset=utf-8' })
+  FileSaver.saveAs(file)
 }
 
 // 选中书签
