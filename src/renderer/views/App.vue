@@ -446,6 +446,20 @@ html,body{
     flex: 1;
     position: relative;
     overflow-y: auto;
+    &::-webkit-scrollbar{
+      width: 3px;
+      height: 1px;
+      background-color: #ffffff;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      position: absolute;
+      background: #999999;
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 3px;
+      position: absolute;
+    }
     .main-content-wrapper{
       padding: 0 10px;
       position: absolute;
