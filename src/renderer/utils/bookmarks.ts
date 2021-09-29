@@ -339,11 +339,9 @@ const toHtml = (data: Bookmarks[]): string => {
      DO NOT EDIT! -->
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 <TITLE>Bookmarks</TITLE>
-<H1>书签菜单</H1>
+<H1>Bookmarks</H1>
 
-<DL><p>
-${body}
-<DL><p>`
+<DL><p>\n${body}<DL><p>`
   return html
 }
 
