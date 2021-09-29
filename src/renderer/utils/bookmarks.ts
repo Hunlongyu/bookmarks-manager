@@ -111,6 +111,17 @@ const updateJSON = (data: Bookmarks[], val: Bookmarks): Bookmarks[] => {
   return arr
 }
 
+// 通过 key 获取书签信息
+const getItemBykey = (data: Bookmarks[], key: string): Bookmarks | false => {
+  const arr = [...data]
+  for (const i of arr) {
+    if (i.key === key) {
+      return i
+    }
+  }
+  return false
+}
+
 // 获取扁平书签列表
 const getFlatList = (data: Bookmarks[]): Bookmarks[] => {
   const d = [...data]
@@ -352,6 +363,7 @@ export {
   getFlatList,
   getFolderTree,
   getFolderKey,
+  getItemBykey,
   deleteBM,
   moveBM,
   getRepeat,

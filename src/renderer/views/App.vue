@@ -19,8 +19,18 @@
       </div>
     </div>
     <div class="main-footer">
-      <n-button @click="batchDeleteEvent">{{t('batchDelete')}}</n-button>
-      <n-button @click="configShow = true">{{t('setting')}}</n-button>
+      <div class="main-footer-left">
+        <n-button v-show="checkedRowKeys.length > 1" @click="batchDeleteEvent">{{t('batchDelete')}}</n-button>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <n-button v-show="checkedRowKeys.length > 1" class="batchOpen" @click="batchOpenEvent">{{t('batchOpen')}}</n-button>
+          </template>
+          {{t('batchOpenWarning')}}
+        </n-tooltip>
+      </div>
+      <div class="main-footer-right">
+        <n-button @click="configShow = true">{{t('setting')}}</n-button>
+      </div>
     </div>
     <div class="main-file"></div>
     <n-modal v-model:show="showEditItemModle" preset="dialog">
@@ -74,8 +84,8 @@
 <script lang="ts" setup>
 import Frame from '@/renderer/components/Frame.vue'
 import { ref, h, reactive, onMounted } from 'vue'
-import { NInputGroup, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect, NDrawer, NDrawerContent, NProgress, NSelect } from 'naive-ui'
-import { emitter, Progress, toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat, getInvalid, batchDeleteBM, toHtml } from '@/renderer/utils/bookmarks'
+import { NInputGroup, NTooltip, NInput, NButton, NDataTable, NImage, NModal, NForm, NFormItem, NSwitch, NTreeSelect, NDrawer, NDrawerContent, NProgress, NSelect } from 'naive-ui'
+import { emitter, getItemBykey, Progress, toJSON, Bookmarks, updateJSON, getFlatList, deleteBM, getFolderTree, getFolderKey, moveBM, getRepeat, getInvalid, batchDeleteBM, toHtml } from '@/renderer/utils/bookmarks'
 import { TableColumns } from 'naive-ui/lib/data-table/src/interface'
 import localforage from 'localforage'
 import FileSaver from 'file-saver'
@@ -254,7 +264,7 @@ function updateData () {
   }
   showEditItemModle.value = false
 }
-
+// 保存书签到本地
 function saveEvent () {
   const html = toHtml(data.value)
   const file = new File([html], 'bookmarks.html', { type: 'text/html;charset=utf-8' })
@@ -270,6 +280,19 @@ function handleCheck (rowkeys: unknown) {
 // 批量删除选中书签
 function batchDeleteEvent () {
   data.value = batchDeleteBM(data.value, checkedRowKeys.value)
+}
+// 批量打开书签链接
+function batchOpenEvent () {
+  if (checkedRowKeys.value.length > 20) {
+    return false
+  }
+  for (const i of checkedRowKeys.value) {
+    const item = getItemBykey(flatData.value, i)
+    if (item && item.href) {
+      const url = item.href
+      window.shell.openExternal(url)
+    }
+  }
 }
 
 // 删除失效书签
@@ -427,6 +450,9 @@ html,body{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    .batchOpen{
+      margin-left: 10px;
+    }
   }
   .main-file{
     display: none;

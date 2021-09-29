@@ -7372,10 +7372,10 @@ mz@^2.4.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-naive-ui@^2.19.1:
-  version "2.19.1"
-  resolved "https://registry.npmjs.org/naive-ui/-/naive-ui-2.19.1.tgz#7dc39676ca0b0da1aacee6127f466ae63446700e"
-  integrity sha512-BvwsgBOMF9Lg+WDZ8+lOmz44JVmnEyLdtzR5oxSot9Sk7UrFpNPTajk6pt6mDx5tpZIwY/r5tgJGI7Vc5hEUhQ==
+naive-ui@^2.19.3:
+  version "2.19.3"
+  resolved "https://registry.npmjs.org/naive-ui/-/naive-ui-2.19.3.tgz#cf518f4242782bf7d5eb55c5ba6075d42ca1e3e9"
+  integrity sha512-+AFAooKZloHweUUnYogi+jhcvxYc7VbmNQsZTasQmTCQwtNGt5y4ADtja4VGbI70BR3jH/NDhKaHRxh/k3pnRA==
   dependencies:
     "@css-render/plugin-bem" "^0.15.6"
     "@css-render/vue3-ssr" "^0.15.6"
@@ -7389,12 +7389,12 @@ naive-ui@^2.19.1:
     highlight.js "^11.0.1"
     lodash "^4.17.21"
     lodash-es "^4.17.21"
-    seemly "^0.3.1"
+    seemly "^0.3.2"
     treemate "^0.3.8"
     vdirs "^0.1.4"
     vfonts "^0.1.0"
     vooks "^0.2.6"
-    vueuc "^0.4.9"
+    vueuc "^0.4.12"
 
 nan@^2.12.1:
   version "2.15.0"
@@ -9200,6 +9200,13 @@ seemly@^0.3.1:
   dependencies:
     "@types/jest" "^26.0.20"
 
+seemly@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.npmjs.org/seemly/-/seemly-0.3.2.tgz#f45aacb2a0748bb9da766b5cf805d3b59ac9502c"
+  integrity sha512-xEDcywG5NmDhvHqt1bZlxCnoagfWOLwM5AObg8TiNcZPnTJwusa7eVm+/iRU9LhxLBDS14/yJFSMhhd3+RWUFQ==
+  dependencies:
+    "@types/jest" "^26.0.20"
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.nlark.com/select-hose/download/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -10725,10 +10732,10 @@ vue@^3.2.19:
     "@vue/server-renderer" "3.2.19"
     "@vue/shared" "3.2.19"
 
-vueuc@^0.4.9:
-  version "0.4.10"
-  resolved "https://registry.npmjs.org/vueuc/-/vueuc-0.4.10.tgz#ae26ba76a0af154f8a139ef3718135a2c6adf676"
-  integrity sha512-d/GITEBOtrkMyhJPB72SNYeO7rYrsTYMlJ+uT7bwuTT1ag15O63vwUesqhY7Vf65FybJRcQwUtGAYShDOqRiJQ==
+vueuc@^0.4.12:
+  version "0.4.12"
+  resolved "https://registry.npmjs.org/vueuc/-/vueuc-0.4.12.tgz#6f29ebcf567cf38049a874cb3dce5c418208ad76"
+  integrity sha512-9jvgiYWisxGswD79mfcbTEQwCV/ylAAvNMkSxFl2e7IcuSNPGEL7zCT6bQ9xGGBJBcZSgmZjvQlgwjzXS81QRg==
   dependencies:
     css-render "^0.15.3"
     evtd "^0.2.2"

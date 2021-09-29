@@ -17,6 +17,8 @@
   "cancel": "Cancel",
   "confirm": "Confirm",
   "batchDelete": "Batch Delete",
+  "batchOpen": "Batch Open",
+  "batchOpenWarning": "No more than 20 links can be opened at one time",
   "setting": "Setting",
   "scanTime": "Scan time",
   "effective": "Effective",

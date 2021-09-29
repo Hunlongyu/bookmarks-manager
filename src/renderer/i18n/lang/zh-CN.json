@@ -17,6 +17,8 @@
   "cancel": "取消",
   "confirm": "确定",
   "batchDelete": "批量删除",
+  "batchOpen": "批量打开",
+  "batchOpenWarning": "一次性打开的链接不能超过20个",
   "setting": "设置",
   "scanTime": "扫描时间",
   "effective": "有效",
