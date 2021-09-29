@@ -200,8 +200,14 @@ const pagination = reactive({
 const tree = ref()
 const selectTree = ref('')
 
-const repeatData = ref()
 const repeatShow = ref(false)
+
+// 选中书签
+const checkedRowKeys = ref<string[]>([])
+// 重复书签
+const repeatData = ref<Bookmarks[]>()
+// 无效书签
+const invalidData = ref<Bookmarks[]>([])
 
 // 选择书签文件， 并解析内容
 function selectBookmarksFile () {
@@ -211,6 +217,10 @@ function selectBookmarksFile () {
     const res = toJSON(args.content)
     data.value = res
     flatData.value = getFlatList(data.value)
+    checkedRowKeys.value = []
+    invalidData.value = []
+    repeatData.value = []
+    repeatShow.value = false
     window.api.removeAllListeners('event.tools.bookmarks_replay')
   })
 }
@@ -271,8 +281,6 @@ function saveEvent () {
   FileSaver.saveAs(file)
 }
 
-// 选中书签
-const checkedRowKeys = ref<string[]>([])
 // 选则书签事件
 function handleCheck (rowkeys: unknown) {
   checkedRowKeys.value = rowkeys as string[]
@@ -343,7 +351,6 @@ const timeend = ref(0)
 
 const invalidLoading = ref(true)
 
-const invalidData = ref<Bookmarks[]>([])
 const start = ref(false)
 
 // 检测失效书签
