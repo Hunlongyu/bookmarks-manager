@@ -197,15 +197,18 @@ const pagination = reactive({
     pagination.page = 1
   }
 })
+// 选中的书签目录
 const tree = ref()
+// 选中单个书签
 const selectTree = ref('')
-
-const repeatShow = ref(false)
-
-// 选中书签
+// 控制书签编辑框显示
+const showEditItemModle = ref(false)
+// 选中多个书签
 const checkedRowKeys = ref<string[]>([])
 // 重复书签
 const repeatData = ref<Bookmarks[]>()
+// 检测重复书签的弹框判断
+const repeatShow = ref(false)
 // 无效书签
 const invalidData = ref<Bookmarks[]>([])
 
@@ -253,8 +256,6 @@ const rules = {
     message: '不能为空'
   }
 }
-// 控制书签编辑框显示
-const showEditItemModle = ref(false)
 // 点击编辑按钮
 function editBtnClick (row: Bookmarks) {
   if (!row.path) return false
