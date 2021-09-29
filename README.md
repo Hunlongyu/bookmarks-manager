@@ -30,6 +30,7 @@
 - 🍔 检测无效链接。Detect invalid links.
 - 🍟 支持批量操作。Batch operation is supported.
 - 🍤 支持多语言。Support multiple languages.(中文，English)
+- 🍣 编辑书签。 Edit bookmark.
 
 ### 🌴 Download 下载
 
@@ -39,9 +40,11 @@
 |                       🥼 主界面 Home apge                     |
 | :----------------------------------------------------------: |
 |    ![](https://i.loli.net/2021/09/07/nSVtbhTUcf8edPW.png)    |
-|                    🧥 检测重复链接 Detect duplicate links      |
+|                      🍣  编辑书签 Edit bookmark               |
 |    ![](https://i.loli.net/2021/09/07/xwUrslWp2jVRf83.png)    |
-|                  👔 检测无效链接。Detect invalid links         |
+|                    🍥 检测重复链接 Detect duplicate links      |
+|    ![](https://i.loli.net/2021/09/07/xwUrslWp2jVRf83.png)    |
+|                  🍔 检测无效链接。Detect invalid links         |
 | ![star-1](https://i.loli.net/2021/09/07/y6GcDUKgxofPkqI.png) |
 |                       👕 设置 setting                        |
 | ![search](https://i.loli.net/2021/09/07/VmclLDMPz5ZU9jI.png) |
