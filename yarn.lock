@@ -1203,6 +1203,11 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/file-saver@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@types/file-saver/-/file-saver-2.0.3.tgz#b734c4f5a04d20615eaed3dc106e2ab321082009"
+  integrity sha512-MBIou8pd/41jkff7s97B47bc9+p0BszqqDJsO51yDm49uUxeKzrfuNl5fSLC6BpLEWKA8zlwyqALVmXrFwoBHQ==
+
 "@types/fs-extra@^9.0.11":
   version "9.0.12"
   resolved "https://registry.nlark.com/@types/fs-extra/download/@types/fs-extra-9.0.12.tgz?cache=0&sync_timestamp=1629708004729&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Ffs-extra%2Fdownload%2F%40types%2Ffs-extra-9.0.12.tgz#9b8f27973df8a7a3920e8461517ebf8a7d4fdfaf"
