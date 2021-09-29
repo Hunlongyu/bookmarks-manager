@@ -34,7 +34,7 @@
     </div>
     <div class="main-file"></div>
     <n-modal v-model:show="showEditItemModle" preset="dialog">
-      <template #header>Edit</template>
+      <template #header>{{t('edit')}}</template>
       <div>
         <n-form :model="model" :rules="rules">
           <n-form-item path="name" :label="t('tbName')">
@@ -102,19 +102,19 @@ const flatData = ref()
 const columns = ref<TableColumns<Bookmarks>>([
   { type: 'selection' },
   {
-    title: 'Type',
+    title: t('tbType'),
     key: 'key',
     render (row) {
       if (row.type === 'folder') {
-        return h('span', 'Folder')
+        return h('span', t('folder'))
       }
       if (row.type === 'site') {
-        return h('span', 'Site')
+        return h('span', t('site'))
       }
     }
   },
   {
-    title: 'icon',
+    title: t('tbIcon'),
     key: 'icon',
     width: 60,
     render (row) {
@@ -126,16 +126,16 @@ const columns = ref<TableColumns<Bookmarks>>([
       )
     }
   },
-  { title: 'name', key: 'name', ellipsis: { tooltip: true } },
-  { title: 'href', key: 'href', ellipsis: { tooltip: true } },
+  { title: t('tbName'), key: 'name', ellipsis: { tooltip: true } },
+  { title: t('tbHref'), key: 'href', ellipsis: { tooltip: true } },
   {
-    title: 'Action',
+    title: t('Action'),
     key: 'actions',
     width: 200,
     render (row) {
-      const openBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => openBtnClick(row) }, { default: () => 'Open' })
-      const editBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => editBtnClick(row) }, { default: () => 'Edit' })
-      const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => deleteBtnClick(row), type: 'error' }, { default: () => 'Delete' })
+      const openBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => openBtnClick(row) }, { default: () => t('open') })
+      const editBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => editBtnClick(row) }, { default: () => t('edit') })
+      const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => deleteBtnClick(row), type: 'error' }, { default: () => t('delete') })
       const btns = []
       if (row.type === 'folder') {
         btns.push(deleteBtn)
@@ -150,7 +150,7 @@ const columns = ref<TableColumns<Bookmarks>>([
 const flatColumns = ref<TableColumns<Bookmarks>>([
   { type: 'selection' },
   {
-    title: 'icon',
+    title: t('tbIcon'),
     key: 'icon',
     width: 60,
     render (row: Bookmarks) {
@@ -162,17 +162,17 @@ const flatColumns = ref<TableColumns<Bookmarks>>([
       )
     }
   },
-  { title: 'name', key: 'name', ellipsis: { tooltip: true } },
-  { title: 'href', key: 'href', ellipsis: { tooltip: true } },
-  { title: 'path', key: 'path', ellipsis: { tooltip: true } },
+  { title: t('tbName'), key: 'name', ellipsis: { tooltip: true } },
+  { title: t('tbHref'), key: 'href', ellipsis: { tooltip: true } },
+  { title: t('tbPath'), key: 'path', ellipsis: { tooltip: true } },
   {
-    title: 'Action',
+    title: t('Action'),
     key: 'actions',
     width: 200,
     render (row: Bookmarks) {
-      const openBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => openBtnClick(row) }, { default: () => 'Open' })
-      const editBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => editBtnClick(row) }, { default: () => 'Edit' })
-      const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => deleteBtnClick(row), type: 'error' }, { default: () => 'Delete' })
+      const openBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => openBtnClick(row) }, { default: () => t('open') })
+      const editBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => editBtnClick(row) }, { default: () => t('edit') })
+      const deleteBtn = h(NButton, { style: { marginRight: '6px' }, size: 'small', onClick: () => deleteBtnClick(row), type: 'error' }, { default: () => t('delete') })
       const btns = []
       if (row.type === 'folder') {
         btns.push(deleteBtn)
