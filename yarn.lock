@@ -1006,43 +1006,43 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@intlify/core-base@9.2.0-beta.7":
-  version "9.2.0-beta.7"
-  resolved "https://registry.npmjs.org/@intlify/core-base/-/core-base-9.2.0-beta.7.tgz#4ecf4d8ec615e085e45b4dccec359a652d051a22"
-  integrity sha512-/dWzj4/PhnXxdrfnGR5VL3ios8oV/MQzDHOMvLqKJKzi5K9f6dg1udCZS2KsMkBGSWM9o8jiO/oqZqG8xuz0Ng==
+"@intlify/core-base@9.2.0-beta.11":
+  version "9.2.0-beta.11"
+  resolved "https://registry.npmjs.org/@intlify/core-base/-/core-base-9.2.0-beta.11.tgz#1b579a8532ec2f7dc2ddcf799b25c3afe6ecabc4"
+  integrity sha512-ECq24EGCOldaDQuBJSGkuhbLIxzaA1O8S5JEucaWj3enjZJFolk9F0HUceQ8U2Fi+B+GlTv9hrXSK9nT6CGu8w==
   dependencies:
-    "@intlify/devtools-if" "9.2.0-beta.7"
-    "@intlify/message-compiler" "9.2.0-beta.7"
-    "@intlify/shared" "9.2.0-beta.7"
-    "@intlify/vue-devtools" "9.2.0-beta.7"
+    "@intlify/devtools-if" "9.2.0-beta.11"
+    "@intlify/message-compiler" "9.2.0-beta.11"
+    "@intlify/shared" "9.2.0-beta.11"
+    "@intlify/vue-devtools" "9.2.0-beta.11"
 
-"@intlify/devtools-if@9.2.0-beta.7":
-  version "9.2.0-beta.7"
-  resolved "https://registry.npmjs.org/@intlify/devtools-if/-/devtools-if-9.2.0-beta.7.tgz#9e4f37364d0851dc0c10c0198ecb0d1dcf2422c2"
-  integrity sha512-+AddAWOOs4sjueaXxTxeU0aKHOiXj82y8YeVbzWkT/EjjTjewjPHgQBkXeTARtswOB3CzIOXZ6fKOW9bJ3eMiw==
+"@intlify/devtools-if@9.2.0-beta.11":
+  version "9.2.0-beta.11"
+  resolved "https://registry.npmjs.org/@intlify/devtools-if/-/devtools-if-9.2.0-beta.11.tgz#b9c950ee3a646dca1b9e8fb87f7a90b2d874a4fb"
+  integrity sha512-2MxFmHIBvHPBcahdTFAcPAdrs0qSYGNQseso78p8eUJ0WO4TWZp+yXkVOhBhFA6xiWfxw47dfeFI7U7zJ7vpdA==
   dependencies:
-    "@intlify/shared" "9.2.0-beta.7"
+    "@intlify/shared" "9.2.0-beta.11"
 
-"@intlify/message-compiler@9.2.0-beta.7":
-  version "9.2.0-beta.7"
-  resolved "https://registry.npmjs.org/@intlify/message-compiler/-/message-compiler-9.2.0-beta.7.tgz#893b3a5e9afbb5eb735d00a37d3b92dce5423684"
-  integrity sha512-VvF5jQMNUFJKjb+BMKXiMye+IcbIi+0/wTm0G/hW4ltEFOKTydIJJwfSK7ULKLPjuXN43BXmbvDB1NkF8hsb+Q==
+"@intlify/message-compiler@9.2.0-beta.11":
+  version "9.2.0-beta.11"
+  resolved "https://registry.npmjs.org/@intlify/message-compiler/-/message-compiler-9.2.0-beta.11.tgz#2a41fd58bf947191405537406ea10d37a6acb04d"
+  integrity sha512-ehNX6TGVivnivWmAlfarlE9i/iMOMsDI01MxCylXRLoBpHfdNeA3E7rsPCOM0YdSuFrvECuxCTdA3ECiOruEoQ==
   dependencies:
-    "@intlify/shared" "9.2.0-beta.7"
+    "@intlify/shared" "9.2.0-beta.11"
     source-map "0.6.1"
 
-"@intlify/shared@9.2.0-beta.7":
-  version "9.2.0-beta.7"
-  resolved "https://registry.npmjs.org/@intlify/shared/-/shared-9.2.0-beta.7.tgz#1be4de81f2cc8298e85b986a1ca4c1080b460a7d"
-  integrity sha512-dtfzso0QVdUNubqhejp+tKiKiMJvBk2gPJg6iB1mRaWvf38XKuHukWP5ERIWv6jvK/3SklCrik+AJz+QWFnRfA==
+"@intlify/shared@9.2.0-beta.11":
+  version "9.2.0-beta.11"
+  resolved "https://registry.npmjs.org/@intlify/shared/-/shared-9.2.0-beta.11.tgz#9beb40de0c884fd7d62311445a0666399396de97"
+  integrity sha512-b6lmE5nH/Vn5bwKu8T3AM57a2cWO+ZMQ5ydEbyNs92VYayIEHYe2Rza8wRwQBhklta9xJG0gP5Ywv8t/xiCT8A==
 
-"@intlify/vue-devtools@9.2.0-beta.7":
-  version "9.2.0-beta.7"
-  resolved "https://registry.npmjs.org/@intlify/vue-devtools/-/vue-devtools-9.2.0-beta.7.tgz#44665d5d11e0705e3ea42e0affaae550219c540f"
-  integrity sha512-Tt6XIjJRkJdAZxmuPmn1eaftvqX43yEZ6ztAK8LFR3wTWtZAIec45IRBfrm61L3Ewic2Rd6JoKEd4Zekw5/3EA==
+"@intlify/vue-devtools@9.2.0-beta.11":
+  version "9.2.0-beta.11"
+  resolved "https://registry.npmjs.org/@intlify/vue-devtools/-/vue-devtools-9.2.0-beta.11.tgz#3022580dd7984025380fc720c8bc9a54f5097212"
+  integrity sha512-odubEzztg5MqMxlLaYQtFWrV3CXrSmehr3jfRzMqgzRF08EAJ+X4vms4erJgYUJ+vHihuV7FetoVTIMYYmCNzQ==
   dependencies:
-    "@intlify/core-base" "9.2.0-beta.7"
-    "@intlify/shared" "9.2.0-beta.7"
+    "@intlify/core-base" "9.2.0-beta.11"
+    "@intlify/shared" "9.2.0-beta.11"
 
 "@jest/types@^26.6.2":
   version "26.6.2"
@@ -3568,6 +3568,11 @@ core-js-compat@^3.14.0, core-js-compat@^3.16.0, core-js-compat@^3.6.5:
     browserslist "^4.17.0"
     semver "7.0.0"
 
+core-js@^3.18.2:
+  version "3.18.2"
+  resolved "https://registry.npmjs.org/core-js/-/core-js-3.18.2.tgz#63a551e8a29f305cd4123754846e65896619ba5b"
+  integrity sha512-zNhPOUoSgoizoSQFdX1MeZO16ORRb9FFQLts8gSYbZU5FcgXhp24iMWMxnOQo5uIaIG7/6FA/IqJPwev1o9ZXQ==
+
 core-js@^3.6.5:
   version "3.17.3"
   resolved "https://registry.nlark.com/core-js/download/core-js-3.17.3.tgz?cache=0&sync_timestamp=1631176914291&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.17.3.tgz#8e8bd20e91df9951e903cabe91f9af4a0895bc1e"
@@ -4362,10 +4367,10 @@ electron-to-chromium@^1.3.830:
   resolved "https://registry.nlark.com/electron-to-chromium/download/electron-to-chromium-1.3.840.tgz?cache=0&sync_timestamp=1631773168352&other_urls=https%3A%2F%2Fregistry.nlark.com%2Felectron-to-chromium%2Fdownload%2Felectron-to-chromium-1.3.840.tgz#3f2a1df97015d9b1db5d86a4c6bd4cdb920adcbb"
   integrity sha1-Pyod+XAV2bHbXYakxr1M25IK3Ls=
 
-electron@^15.0.0:
-  version "15.0.0"
-  resolved "https://registry.npmjs.org/electron/-/electron-15.0.0.tgz#b1b6244b1cffddf348c27c54b1310b3a3680246e"
-  integrity sha512-LlBjN5nCJoC7EDrgfDQwEGSGSAo/o08nSP5uJxN2m+ZtNA69SxpnWv4yPgo1K08X/iQPoGhoZu6C8LYYlk1Dtg==
+electron@^15.1.1:
+  version "15.1.1"
+  resolved "https://registry.npmjs.org/electron/-/electron-15.1.1.tgz#cd3eaaaf62aa30c0f2d28ba28c5b62bd5ee2c325"
+  integrity sha512-ogVGNWL38KegiqAhUdgjWoKPOufTqDb+cNIqQF/WpVxgauNjzXEk/RNEk7qlw946B/g2dHpzpHeUhi+D/4EcIg==
   dependencies:
     "@electron/get" "^1.13.0"
     "@types/node" "^14.6.2"
@@ -7401,10 +7406,15 @@ nan@^2.12.1:
   resolved "https://registry.nlark.com/nan/download/nan-2.15.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fnan%2Fdownload%2Fnan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha1-PzSkc/8Y4VwbVia2KQO1rW5mX+4=
 
-nanoid@^3.1.23, nanoid@^3.1.25:
+nanoid@^3.1.23:
   version "3.1.25"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.1.25.tgz#09ca32747c0e543f0e1814b7d3793477f9c8e152"
   integrity sha512-rdwtIXaXCLFAQbnfqDRnI6jaRHp9fTcYBjtFKE8eezcZ7LuLjhUaQGNeMXf1HmRoCH32CLz6XwX0TtxEOS/A3Q==
+
+nanoid@^3.1.29:
+  version "3.1.29"
+  resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.1.29.tgz#214fb2d7a33e1a5bef4757b779dfaeb6a4e5aeb4"
+  integrity sha512-dW2pUSGZ8ZnCFIlBIA31SV8huOGCHb6OwzVCc7A69rb/a+SgPBwfmLvK5TKQ3INPbRkcI8a/Owo0XbiTNH19wg==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -10678,14 +10688,14 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha1-UylVzB6yCKPZkLOp+acFdGV+CPI=
 
-vue-i18n@^9.2.0-beta.7:
-  version "9.2.0-beta.7"
-  resolved "https://registry.npmjs.org/vue-i18n/-/vue-i18n-9.2.0-beta.7.tgz#d1f68759873c4f5ea2db5c08877afd8f26482430"
-  integrity sha512-SwzwGQFlHbS1rI+qp9dKJB+jP0HmlCUdWL99CugCPhhnDKm2sdd0Vw2Hiwa6cMxxWs6fpccGFTlmTwWtTpvAog==
+vue-i18n@^9.2.0-beta.11:
+  version "9.2.0-beta.11"
+  resolved "https://registry.npmjs.org/vue-i18n/-/vue-i18n-9.2.0-beta.11.tgz#1992fed8a6a0a741b15ce7c733e4158126ee7b3a"
+  integrity sha512-qJ4ZRSGFGqYiC3gABD1cLhw7s7G1dw0Di3k+XHy6XhJt3+FUHOQiLiQMA41ZkfmgZ0Gb34SF5ij3YF88DXmbyA==
   dependencies:
-    "@intlify/core-base" "9.2.0-beta.7"
-    "@intlify/shared" "9.2.0-beta.7"
-    "@intlify/vue-devtools" "9.2.0-beta.7"
+    "@intlify/core-base" "9.2.0-beta.11"
+    "@intlify/shared" "9.2.0-beta.11"
+    "@intlify/vue-devtools" "9.2.0-beta.11"
     "@vue/devtools-api" "^6.0.0-beta.13"
 
 "vue-loader-v16@npm:vue-loader@^16.1.0":
