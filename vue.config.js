@@ -11,7 +11,7 @@ module.exports = {
       },
       mainProcessWatch: ['src/main/'],
       builderOptions: {
-        productName: 'Bookmark manager',
+        productName: 'Bookmark Manager',
         copyright: 'Copyright @ 2021 hunlongyu',
         appId: 'com.hunlongyu.bookmark',
         publish: [
