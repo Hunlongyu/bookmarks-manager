@@ -48,7 +48,7 @@
         <n-tree-select :options="tree" label-field="name" default-expand-all clearable v-model:value="selectTree" />
       </div>
       <template #action>
-        <n-button size="small" @click="showEditItemModle === false">{{t('cancel')}}</n-button>
+        <n-button size="small" @click="showEditItemModle = false">{{t('cancel')}}</n-button>
         <n-button size="small" @click="updateData">{{t('confirm')}}</n-button>
       </template>
     </n-modal>
@@ -121,7 +121,11 @@ const columns = ref<TableColumns<Bookmarks>>([
       return h(
         NImage,
         {
-          src: row.icon
+          src: row.icon,
+          style: {
+            maxHeight: '40px',
+            maxWeight: 'auto'
+          }
         }
       )
     }
