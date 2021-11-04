@@ -39,15 +39,13 @@
 ### 🎨 Screenshot 截图
 |                       🥼 主界面 Home apge                     |
 | :----------------------------------------------------------: |
-|    ![](https://i.loli.net/2021/09/07/nSVtbhTUcf8edPW.png)    |
+|    ![00.png](https://i.loli.net/2021/11/04/PWp2rzSO6iACcgm.png)    |
 |                      🍣  编辑书签 Edit bookmark               |
-|    ![](https://i.loli.net/2021/09/07/xwUrslWp2jVRf83.png)    |
+|    ![01.png](https://i.loli.net/2021/11/04/GlhS8sbMywEJRTH.png)    |
 |                    🍥 检测重复链接 Detect duplicate links      |
-|    ![](https://i.loli.net/2021/09/07/xwUrslWp2jVRf83.png)    |
+|    ![02.png](https://i.loli.net/2021/11/04/Io3A1sfVJ9jHCGU.png)    |
 |                  🍔 检测无效链接。Detect invalid links         |
-| ![star-1](https://i.loli.net/2021/09/07/y6GcDUKgxofPkqI.png) |
-|                       👕 设置 setting                        |
-| ![search](https://i.loli.net/2021/09/07/VmclLDMPz5ZU9jI.png) |
+| ![03.png](https://i.loli.net/2021/11/04/wQViT1RomFICBxH.png) |
 
 ### 🍭 开发者
 
