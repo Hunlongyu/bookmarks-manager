@@ -1,0 +1,30 @@
+name: release-build
+
+on:
+  push:
+    tags:
+      - v*.*.*
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - run: |
+          yarn
+          yarn release
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VUE_APP_clientId: ${{ secrets.CLIENT_ID }}
+          VUE_APP_clientSecret: ${{ secrets.CLIENT_SECRET }}
