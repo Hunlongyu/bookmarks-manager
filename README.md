@@ -3,7 +3,7 @@
 </p>
 <p align="center">
 	<a href="https://hunlongyu.github.io/readme_home/" target="_blank">官网</a>
-	<a href="https://github.com/Hunlongyu/bookmarks-manager/issues" target="_blank">反馈</a>
+	<a href="https://support.qq.com/product/363527" target="_blank">反馈</a>
 </p>
 <p align="center">
 	<img src="https://forthebadge.com/images/badges/built-with-love.svg">
