@@ -34,7 +34,8 @@
 
 ### 🌴 Download 下载
 
-- 🎃 [官网 Github Release](https://github.com/Hunlongyu/ReadMe/releases)
+- 🐱‍👤 [官网 Github Release](https://github.com/Hunlongyu/ReadMe/releases)
+- 🐱‍🏍 [阿里云](https://www.aliyundrive.com/s/FdE2m6tseDh)
 
 ### 🎨 Screenshot 截图
 |                       🥼 主界面 Home apge                     |
