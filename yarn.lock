@@ -1023,48 +1023,35 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@intlify/core-base@9.2.0-beta.16", "@intlify/core-base@9.2.0-beta.17":
-  version "9.2.0-beta.16"
-  resolved "https://registry.npmmirror.com/@intlify/core-base/download/@intlify/core-base-9.2.0-beta.16.tgz#209f5b5ea11e9890e9bbfda15929a8c621b96e8e"
-  integrity sha1-IJ9bXqEemJDpu/2hWSmoxiG5bo4=
+"@intlify/core-base@9.2.0-beta.17":
+  version "9.2.0-beta.17"
+  resolved "https://registry.yarnpkg.com/@intlify/core-base/-/core-base-9.2.0-beta.17.tgz#5938ffa2b74eb1e21c4a5d30e5130d4684aa10fd"
+  integrity sha512-Mgo7dHA/Dk4YC8G5RIqSLVz7eg1OJGsRbr/JCTJoiKJ7KaECelcnJusAjbTNGTeWGDXdentuK3oybtL674/A5w==
   dependencies:
-    "@intlify/devtools-if" "9.2.0-beta.16"
-    "@intlify/message-compiler" "9.2.0-beta.16"
-    "@intlify/shared" "9.2.0-beta.16"
-    "@intlify/vue-devtools" "9.2.0-beta.16"
+    "@intlify/devtools-if" "9.2.0-beta.17"
+    "@intlify/message-compiler" "9.2.0-beta.17"
+    "@intlify/shared" "9.2.0-beta.17"
+    "@intlify/vue-devtools" "9.2.0-beta.17"
 
-"@intlify/devtools-if@9.2.0-beta.16":
-  version "9.2.0-beta.16"
-  resolved "https://registry.npmmirror.com/@intlify/devtools-if/download/@intlify/devtools-if-9.2.0-beta.16.tgz#0ca65e05957a5fd2b4e259679bc26552159df461"
-  integrity sha1-DKZeBZV6X9K04llnm8JlUhWd9GE=
+"@intlify/devtools-if@9.2.0-beta.17":
+  version "9.2.0-beta.17"
+  resolved "https://registry.yarnpkg.com/@intlify/devtools-if/-/devtools-if-9.2.0-beta.17.tgz#c05c04bde9c0d8036096127749af4031f8c14289"
+  integrity sha512-uI9OLQM1FbM4ZM96gduj7OB3/RWL6t0teTU+JV8DetHrDQ4Zut4k7/MEnRb4G41L5vblK9fjOs7BWQjg71oZkw==
   dependencies:
-    "@intlify/shared" "9.2.0-beta.16"
+    "@intlify/shared" "9.2.0-beta.17"
 
-"@intlify/message-compiler@9.2.0-beta.16":
-  version "9.2.0-beta.16"
-  resolved "https://registry.npmmirror.com/@intlify/message-compiler/download/@intlify/message-compiler-9.2.0-beta.16.tgz?cache=0&sync_timestamp=1635879705003&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fmessage-compiler%2Fdownload%2F%40intlify%2Fmessage-compiler-9.2.0-beta.16.tgz#abec6a1d7a815ef5d15e63e356cf8fafb1e42ef5"
-  integrity sha1-q+xqHXqBXvXRXmPjVs+Pr7HkLvU=
+"@intlify/message-compiler@9.2.0-beta.17":
+  version "9.2.0-beta.17"
+  resolved "https://registry.yarnpkg.com/@intlify/message-compiler/-/message-compiler-9.2.0-beta.17.tgz#5a6a4fafe21946a5df43b696a0d9c44b95a06c3e"
+  integrity sha512-8H9luyStGuf4CKKxZKtTqKCHlZjn5prNu9m+KArzUvTyMm/pGQp3vgBORaNw1/r5Ml1iM16b+zQUVKjeVPpn4A==
   dependencies:
-    "@intlify/shared" "9.2.0-beta.16"
+    "@intlify/shared" "9.2.0-beta.17"
     source-map "0.6.1"
-
-"@intlify/shared@9.2.0-beta.16":
-  version "9.2.0-beta.16"
-  resolved "https://registry.npmmirror.com/@intlify/shared/download/@intlify/shared-9.2.0-beta.16.tgz?cache=0&sync_timestamp=1635879705225&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fshared%2Fdownload%2F%40intlify%2Fshared-9.2.0-beta.16.tgz#764a6158ec4c5ab8cf2de38975e8130da5860043"
-  integrity sha1-dkphWOxMWrjPLeOJdegTDaWGAEM=
 
 "@intlify/shared@9.2.0-beta.17":
   version "9.2.0-beta.17"
   resolved "https://registry.npmmirror.com/@intlify/shared/download/@intlify/shared-9.2.0-beta.17.tgz?cache=0&sync_timestamp=1635879705225&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40intlify%2Fshared%2Fdownload%2F%40intlify%2Fshared-9.2.0-beta.17.tgz#d4c7c89c96e0ea02fa33e5c416c77e7e641b3259"
   integrity sha1-1MfInJbg6gL6M+XEFsd+fmQbMlk=
-
-"@intlify/vue-devtools@9.2.0-beta.16":
-  version "9.2.0-beta.16"
-  resolved "https://registry.npmmirror.com/@intlify/vue-devtools/download/@intlify/vue-devtools-9.2.0-beta.16.tgz#e13262382a7da419b980795a41805e9ec4c72d46"
-  integrity sha1-4TJiOCp9pBm5gHlaQYBensTHLUY=
-  dependencies:
-    "@intlify/core-base" "9.2.0-beta.16"
-    "@intlify/shared" "9.2.0-beta.16"
 
 "@intlify/vue-devtools@9.2.0-beta.17":
   version "9.2.0-beta.17"
@@ -7461,10 +7448,10 @@ nan@^2.12.1:
   resolved "https://registry.nlark.com/nan/download/nan-2.15.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fnan%2Fdownload%2Fnan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
   integrity sha1-PzSkc/8Y4VwbVia2KQO1rW5mX+4=
 
-nanoid@^3.1.30:
-  version "3.1.30"
-  resolved "https://registry.npmmirror.com/nanoid/download/nanoid-3.1.30.tgz#63f93cc548d2a113dc5dfbc63bfa09e2b9b64362"
-  integrity sha1-Y/k8xUjSoRPcXfvGO/oJ4rm2Q2I=
+nanoid@^3.1.30, nanoid@^3.1.31:
+  version "3.1.31"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.31.tgz#f5b58a1ce1b7604da5f0605757840598d8974dc6"
+  integrity sha512-ZivnJm0o9bb13p2Ot5CpgC2rQdzB9Uxm/mFZweqm5eMViqOJe3PV6LU2E30SiLgheesmcPrjquqraoolONSA0A==
 
 nanomatch@^1.2.9:
   version "1.2.13"
