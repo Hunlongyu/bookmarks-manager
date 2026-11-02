@@ -1,0 +1,17 @@
+{
+	"fixed": {
+		"file_version": "0.1.0",
+		"product_version": "0.1.0"
+	},
+	"info": {
+		"0409": {
+			"FileVersion": "0.1.0",
+			"ProductVersion": "0.1.0",
+			"CompanyName": "Hunlongyu",
+			"FileDescription": "本地优先的桌面书签管理器",
+			"LegalCopyright": "Copyright (c) Hunlongyu",
+			"ProductName": "Bookmarks Manager",
+			"Comments": "Bookmarks Manager"
+		}
+	}
+}

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Bookmarks Manager
+Comment=本地优先的桌面书签管理器
+# The Exec line includes %u to pass the URL to the application
+Exec=/usr/local/bin/bookmarks-manager %u
+Terminal=false
+Type=Application
+Icon=bookmarks-manager
+Categories=Utility;
+StartupWMClass=bookmarks-manager
