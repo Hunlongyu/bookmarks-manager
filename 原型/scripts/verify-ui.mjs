@@ -1,0 +1,126 @@
+import { createRequire } from 'node:module';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+import { mkdir, writeFile } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+
+const root = fileURLToPath(new URL('../..', import.meta.url));
+const requireFrontend = createRequire(new URL('../../frontend/package.json', import.meta.url));
+const { chromium, expect } = requireFrontend('@playwright/test');
+const output = resolve(root, '.impeccable/review/ui-fixes');
+await mkdir(output, { recursive: true });
+const browser = await chromium.launch({ channel: 'msedge', headless: true });
+const page = await browser.newPage({ viewport: { width: 1100, height: 720 }, reducedMotion: 'reduce' });
+page.setDefaultTimeout(7000);
+const errors = []; const layouts = []; const checks = [];
+page.on('pageerror', e => errors.push(e.message));
+await page.route('https://**/*', route => route.abort());
+const nav = name => page.locator('.app-sidebar .nav-item').filter({ hasText: name }).click();
+const shot = name => page.screenshot({ path: resolve(output, name + '.png'), animations: 'disabled' });
+const pass = name => { checks.push(name); console.log('PASS ' + name); };
+try {
+  await page.goto(pathToFileURL(resolve(root, '原型/index.html')).href);
+  await page.locator('.app-sidebar').getByRole('button', { name: '导入书签', exact: true }).click();
+  await page.getByRole('button', { name: '查看完整示例', exact: true }).click();
+  const checkButton = page.getByRole('button', { name: '检查书签', exact: true });
+  await checkButton.focus(); await page.keyboard.press('Enter');
+  await expect(page.getByRole('dialog')).toBeVisible(); await page.keyboard.press('Tab'); await page.keyboard.press('Escape');
+  await expect(checkButton).toBeFocused();
+  await page.getByRole('button', { name: '新建', exact: true }).click();
+  await expect(page.getByRole('menuitem', { name: '合并文件夹', exact: true })).toHaveCount(0);
+  await page.getByRole('menuitem', { name: '添加书签', exact: true }).click();
+  await expect(page.getByRole('dialog')).toBeVisible(); await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: '新建', exact: true })).toBeFocused();
+  await page.getByRole('button', { name: '目录操作', exact: true }).click();
+  await page.getByRole('menuitem', { name: '清理空文件夹', exact: true }).click();
+  await expect(page.getByRole('heading', { name: '清理空文件夹', exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: '目录操作', exact: true })).toBeFocused();
+  pass('弹窗关闭恢复按钮和菜单触发器焦点；目录操作可发现');
+  await checkButton.click(); await page.getByRole('button', { name: '开始检查', exact: true }).click();
+  await expect(page.locator('.job-copy')).toContainText('已完成', { timeout: 12000 });
+  await page.getByRole('checkbox', { name: '选择当前结果全部书签', exact: true }).check();
+  for (const [width, height] of [[760,500],[900,450],[900,600],[1100,720],[1440,900],[1920,1080]]) {
+    await page.setViewportSize({ width, height });
+    await page.locator('.list-scroll').evaluate(e => { e.scrollTop = 0; });
+    const metrics = await page.evaluate(() => {
+      const scroll = document.querySelector('.list-scroll'); const bounds = scroll.getBoundingClientRect();
+      const rows = [...document.querySelectorAll('tbody tr')].map(e => e.getBoundingClientRect());
+      const menu = document.querySelector('tbody tr td:last-child button').getBoundingClientRect();
+      return { width: innerWidth, height: innerHeight, listHeight: bounds.height, visibleRows: rows.filter(r => r.top >= bounds.top && r.bottom <= bounds.bottom).length, menuFits: menu.left >= bounds.left && menu.right <= bounds.right, horizontalOverflow: scroll.scrollWidth > scroll.clientWidth + 1, rootMinWidth: getComputedStyle(document.documentElement).minWidth };
+    });
+    layouts.push(metrics); assert.ok(metrics.visibleRows >= 1, JSON.stringify(metrics)); assert.ok(metrics.menuFits, JSON.stringify(metrics)); assert.equal(metrics.horizontalOverflow, false);
+    await shot(`selected-${width}x${height}`);
+    await page.locator('.list-scroll').evaluate(e => { e.scrollTop = e.scrollHeight; });
+    await expect(page.locator('tbody tr').last()).toBeInViewport();
+    await page.locator('tbody tr').last().getByRole('button', { name: /的操作$/ }).click();
+    await expect(page.getByRole('menuitem', { name: '编辑书签', exact: true })).toBeVisible(); await page.keyboard.press('Escape');
+  }
+  pass('六种桌面尺寸：至少完整显示一行、末行可达、行菜单完整可用');
+  await page.setViewportSize({ width: 900, height: 600 });
+  await page.getByRole('button', { name: '查看详情', exact: true }).click(); await expect(page.getByRole('dialog')).toContainText('原始书签'); await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: '查看详情', exact: true })).toBeFocused();
+  await page.setViewportSize({ width: 1100, height: 720 });
+  await page.getByRole('button', { name: '关闭详情栏', exact: true }).click();
+  await expect(page.locator('.detail-panel')).toHaveCount(0);
+  await page.getByRole('button', { name: '展开详情', exact: true }).click(); await expect(page.locator('.detail-panel')).toBeVisible();
+  pass('紧凑窗口详情弹窗、宽窗口收起和重新展开');
+  await page.getByRole('button', { name: '处理建议', exact: true }).click();
+  const addresses = page.locator('.address-change');
+  await expect(addresses).toHaveCount(2);
+  for (const row of await addresses.all()) {
+    await expect(row.getByRole('checkbox')).not.toBeChecked();
+    await expect(row.getByRole('link')).toHaveCount(2);
+  }
+  await expect(page.getByRole('dialog')).toContainText('内容一致性尚未确认');
+  await expect(page.getByRole('dialog')).toContainText('utm_source');
+  await shot('repair-pending');
+  await page.getByRole('button', { name: '应用所选修复', exact: true }).click();
+  await expect(page.locator('.toast-message')).toContainText('修复');
+  await page.getByRole('button', { name: '处理建议', exact: true }).click();
+  await expect(addresses).toHaveCount(2);
+  await expect(page.getByRole('button', { name: '应用所选修复', exact: true })).toBeDisabled();
+  await page.getByRole('checkbox', { name: '已核对原页面与目标页面，确认更新地址', exact: true }).check();
+  await expect(page.getByRole('dialog')).toContainText('已选择 1 项修改');
+  await page.getByRole('button', { name: '应用所选修复', exact: true }).click();
+  await page.getByRole('button', { name: '处理建议', exact: true }).click();
+  await expect(addresses).toHaveCount(1); await expect(addresses).toContainText('跟踪参数清理'); await page.keyboard.press('Escape');
+  pass('地址默认待复核，未确认不会修改，仅应用确认项');
+  await page.getByRole('button', { name: '设置', exact: true }).click();
+  await expect(page.locator('.job-strip')).toHaveCount(0);
+  await page.getByRole('button', { name: '填入演示配置', exact: true }).click();
+  await page.getByRole('button', { name: '测试连接', exact: true }).click();
+  await expect(page.getByText('连接通过 · 演示', { exact: true })).toBeVisible();
+  await nav('AI 目录整理'); await page.getByRole('tab', { name: '重新规划分类', exact: true }).click();
+  await page.getByRole('button', { name: '生成整理建议', exact: true }).click();
+  await expect(page.locator('.destination-tree')).toBeVisible();
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await shot('organize-tree');
+  const all = Number((await page.getByRole('button', { name: /^应用 \d+ 条建议$/ }).innerText()).match(/\d+/)[0]);
+  const group = page.locator('.destination-tree li').filter({ has: page.getByRole('button', { name: '图标资源', exact: true }) }).last();
+  await group.getByRole('checkbox').uncheck();
+  await page.getByRole('button', { name: '图标资源', exact: true }).click();
+  assert.ok(Number((await page.getByRole('button', { name: /^应用 \d+ 条建议$/ }).innerText()).match(/\d+/)[0]) < all);
+  for (const c of await page.locator('.organize-row').getByRole('checkbox').all()) await expect(c).not.toBeChecked();
+  await page.locator('.organize-row').first().getByRole('checkbox').check();
+  await page.locator('.organize-row summary').first().click();
+  await expect(page.locator('.organize-reason[open] p')).toBeVisible();
+  await page.setViewportSize({ width: 900, height: 600 }); await shot('organize-compact');
+  await page.getByRole('button', { name: /^应用 \d+ 条建议$/ }).click();
+  await expect(page.locator('.toast-message')).toContainText('应用 AI 分类');
+  pass('目标目录树、分类批量选择、逐项覆盖、依据展开与应用');
+  await nav('全部书签'); await page.keyboard.press('Control+k'); await expect(page.getByRole('textbox', { name: '搜索书签', exact: true })).toBeFocused();
+  const colors = [];
+  for (const theme of ['light', 'dark']) {
+    if (theme === 'dark') await page.getByRole('button', { name: '切换深色', exact: true }).click();
+    colors.push(await page.evaluate(() => ({ theme: document.querySelector('.radix-themes').className, placeholder: getComputedStyle(document.querySelector('#bookmark-search'), '::placeholder').color, surface: getComputedStyle(document.querySelector('.radix-themes')).backgroundColor, unsaved: getComputedStyle(document.querySelector('.unsaved-dot')).color, footer: getComputedStyle(document.querySelector('.app-footer')).backgroundColor })));
+    await shot('workspace-' + theme);
+  }
+  assert.deepEqual(errors, []);
+  pass('快捷键与浅深主题采样，无运行时错误');
+  await writeFile(resolve(output, 'verification.json'), JSON.stringify({ generatedAt: new Date().toISOString(), checks, layouts, colors, errors }, null, 2));
+} catch (error) {
+  await shot('failure');
+  await writeFile(resolve(output, 'failure.json'), JSON.stringify({ checks, layouts, errors, error: String(error) }, null, 2));
+  console.error(error); process.exitCode = 1;
+} finally { await browser.close(); }

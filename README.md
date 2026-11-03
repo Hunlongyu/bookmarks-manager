@@ -1,6 +1,6 @@
 # 书签管理器
 
-本地优先的桌面书签管理与清理工具。目前仅完成工程初始化，未实现书签导入、编辑、检测、浏览器同步或 AI 功能。
+按需导入、整理、检查和清理浏览器书签的桌面工具，Windows 优先，面向 1 万条以内书签。支持范围规划为 Chrome、Edge、Firefox 直接读取与备份后覆盖写回，以及 HTML 导入导出。目前仅完成工程初始化，业务功能仍待实现。
 
 ## 技术栈
 
@@ -56,6 +56,6 @@ frontend/           React、Radix Themes 与 Vite 工程
 docs/               功能规划文档
 ```
 
-[功能规划](docs/书签管理器功能文档.md)用于后续选择开发范围，不表示相关功能已经实现。
+[功能清单](docs/书签管理器功能文档.md)记录多轮讨论确认的范围与边界；[新版开发计划](docs/新版开发计划.md)给出 P0、P1、P2 顺序、技术依赖与验收要求。每次启动建立新整理会话，配置和页面分析缓存保存在 AppData。[交互原型](原型/index.html)使用实际 React 与 Radix Themes 组件，可离线打开；源码和使用说明见[原型目录](原型/README.md)。
 
 框架参考：[Wails](https://github.com/wailsapp/wails)、[Radix Themes](https://www.radix-ui.com/themes/docs/overview/getting-started)。

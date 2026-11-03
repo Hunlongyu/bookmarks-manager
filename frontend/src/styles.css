@@ -2,7 +2,6 @@ html,
 body,
 #root {
   margin: 0;
-  min-width: 320px;
   min-height: 100%;
 }
 

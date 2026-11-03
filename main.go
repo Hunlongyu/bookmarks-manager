@@ -26,8 +26,6 @@ func main() {
 		Title:            "Bookmarks Manager",
 		Width:            1100,
 		Height:           720,
-		MinWidth:         640,
-		MinHeight:        480,
 		BackgroundColour: application.NewRGB(255, 255, 255),
 		URL:              "/",
 	})

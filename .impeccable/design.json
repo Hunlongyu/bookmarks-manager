@@ -1,0 +1,527 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-03T02:27:47.683076+00:00",
+  "title": "Design System: 书签管理器",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "primary",
+        "tonalRamp": [
+          "#11131f",
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#abbdf9",
+          "#d2deff",
+          "#edf2fe",
+          "#fdfdfe"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "primary-hover",
+        "tonalRamp": [
+          "#11131f",
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#abbdf9",
+          "#d2deff",
+          "#edf2fe",
+          "#fdfdfe"
+        ]
+      },
+      "primary-text": {
+        "role": "primary",
+        "displayName": "primary-text",
+        "tonalRamp": [
+          "#11131f",
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#abbdf9",
+          "#d2deff",
+          "#edf2fe",
+          "#fdfdfe"
+        ]
+      },
+      "primary-selection": {
+        "role": "primary",
+        "displayName": "primary-selection",
+        "tonalRamp": [
+          "#11131f",
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#abbdf9",
+          "#d2deff",
+          "#edf2fe",
+          "#fdfdfe"
+        ]
+      },
+      "primary-subtle": {
+        "role": "primary",
+        "displayName": "primary-subtle",
+        "tonalRamp": [
+          "#11131f",
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#abbdf9",
+          "#d2deff",
+          "#edf2fe",
+          "#fdfdfe"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "surface",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "sidebar": {
+        "role": "neutral",
+        "displayName": "sidebar",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "hover": {
+        "role": "neutral",
+        "displayName": "hover",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "divider": {
+        "role": "neutral",
+        "displayName": "divider",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "text",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "muted",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "success": {
+        "role": "semantic",
+        "displayName": "success",
+        "tonalRamp": [
+          "#0e1512",
+          "#193b2d",
+          "#218358",
+          "#30a46c",
+          "#8eceaa",
+          "#c4e8d1",
+          "#e6f6eb",
+          "#fbfefc"
+        ]
+      },
+      "warning": {
+        "role": "semantic",
+        "displayName": "warning",
+        "tonalRamp": [
+          "#16120c",
+          "#4f3422",
+          "#ab6400",
+          "#ffc53d",
+          "#e9c162",
+          "#fbe577",
+          "#fff7c2",
+          "#fefdfb"
+        ]
+      },
+      "attention": {
+        "role": "semantic",
+        "displayName": "attention",
+        "tonalRamp": [
+          "#17120e",
+          "#582d1d",
+          "#cc4e00",
+          "#f76b15",
+          "#f5ae73",
+          "#ffd19a",
+          "#ffefd6",
+          "#fefcfb"
+        ]
+      },
+      "danger": {
+        "role": "semantic",
+        "displayName": "danger",
+        "tonalRamp": [
+          "#191111",
+          "#641723",
+          "#ce2c31",
+          "#e5484d",
+          "#f4a9aa",
+          "#ffcdce",
+          "#feebec",
+          "#fffcfc"
+        ]
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "dark-surface",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "dark-sidebar": {
+        "role": "neutral",
+        "displayName": "dark-sidebar",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "dark-hover": {
+        "role": "neutral",
+        "displayName": "dark-hover",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "dark-divider": {
+        "role": "neutral",
+        "displayName": "dark-divider",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "dark-text": {
+        "role": "neutral",
+        "displayName": "dark-text",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "dark-muted": {
+        "role": "neutral",
+        "displayName": "dark-muted",
+        "tonalRamp": [
+          "#111113",
+          "#1c2024",
+          "#60646c",
+          "#8b8d98",
+          "#cdced6",
+          "#e0e1e6",
+          "#f0f0f3",
+          "#fcfcfd"
+        ]
+      },
+      "dark-primary-text": {
+        "role": "primary",
+        "displayName": "dark-primary-text",
+        "tonalRamp": [
+          "#11131f",
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#abbdf9",
+          "#d2deff",
+          "#edf2fe",
+          "#fdfdfe"
+        ]
+      },
+      "dark-primary-selection": {
+        "role": "primary",
+        "displayName": "dark-primary-selection",
+        "tonalRamp": [
+          "#11131f",
+          "#1f2d5c",
+          "#3a5bc7",
+          "#3e63dd",
+          "#abbdf9",
+          "#d2deff",
+          "#edf2fe",
+          "#fdfdfe"
+        ]
+      },
+      "unsaved": {
+        "role": "semantic",
+        "displayName": "未保存状态",
+        "tonalRamp": [
+          "#16120c",
+          "#4f3422",
+          "#ab6400",
+          "#ffc53d",
+          "#e9c162",
+          "#fbe577",
+          "#fff7c2",
+          "#fefdfb"
+        ]
+      },
+      "dark-unsaved": {
+        "role": "semantic",
+        "displayName": "深色未保存状态",
+        "tonalRamp": [
+          "#16120c",
+          "#4f3422",
+          "#ab6400",
+          "#ffc53d",
+          "#e9c162",
+          "#fbe577",
+          "#fff7c2",
+          "#fefdfb"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "页面标题",
+        "purpose": "页面主要标题。"
+      },
+      "title": {
+        "displayName": "区块标题",
+        "purpose": "内容区块层次。"
+      },
+      "body": {
+        "displayName": "界面正文",
+        "purpose": "基础控件与正文。"
+      },
+      "label": {
+        "displayName": "标签",
+        "purpose": "表单和列表主要信息。"
+      },
+      "caption": {
+        "displayName": "辅助信息",
+        "purpose": "地址、路径、详情标签与底部状态文字。"
+      },
+      "detail-body": {
+        "displayName": "详情字段内容",
+        "purpose": "详情值与完整地址，允许换行。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "dialog",
+        "value": "var(--shadow-6)",
+        "purpose": "Radix 弹窗的主题化阴影。"
+      },
+      {
+        "name": "menu",
+        "value": "var(--shadow-5)",
+        "purpose": "Radix 菜单的主题化阴影。"
+      },
+      {
+        "name": "toast",
+        "value": "0 8px 30px rgba(0, 0, 0, .16)",
+        "purpose": "底部会话反馈通知。"
+      }
+    ],
+    "motion": [
+      {
+        "name": "selection",
+        "value": "border-color 160ms ease, background-color 160ms ease",
+        "purpose": "来源选择变化。"
+      },
+      {
+        "name": "toast-enter",
+        "value": "160ms ease-out",
+        "purpose": "通知进入，透明度由 .4 起并上移 6px。"
+      },
+      {
+        "name": "working",
+        "value": "1.3s ease-in-out infinite",
+        "purpose": "任务指示点呼吸，50% 处透明度 .4；减少动态偏好时禁用。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "main-container-details",
+        "value": "850px"
+      },
+      {
+        "name": "bookmark-list-container-compact",
+        "value": "680px"
+      },
+      {
+        "name": "window-height-compact",
+        "value": "620px"
+      },
+      {
+        "name": "window-width-footer-compact",
+        "value": "1100px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "主操作按钮",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "主要确认与检查操作。",
+      "html": "<button class=\"ds-primary\">检查书签</button>",
+      "css": ".ds-primary{font-family:var(--default-font-family,\"Segoe UI\",\"Microsoft YaHei UI\",sans-serif);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:0;border-radius:4px;font-size:14px;line-height:20px;height:32px;padding:0 12px;font-weight:500;background:var(--accent-9,#3e63dd);color:var(--accent-contrast,white)}.ds-primary:hover{background:var(--accent-10,#3358d4)}.ds-primary:active{filter:brightness(.92) saturate(1.1)}.ds-primary:focus-visible{outline:2px solid var(--accent-9,#3e63dd);outline-offset:3px;}.ds-primary:disabled{background:var(--gray-a3,#0000330f);color:var(--gray-a8,#00083046);cursor:not-allowed;filter:none}"
+    },
+    {
+      "name": "辅助操作按钮",
+      "kind": "button",
+      "refersTo": "button-soft",
+      "description": "编辑、新建等辅助操作。",
+      "html": "<button class=\"ds-soft\">编辑</button>",
+      "css": ".ds-soft{font-family:var(--default-font-family,\"Segoe UI\",\"Microsoft YaHei UI\",sans-serif);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:0;border-radius:4px;font-size:14px;line-height:20px;height:32px;padding:0 12px;font-weight:500;background:var(--accent-a3,#0047f112);color:var(--accent-a11,#002bb7c5)}.ds-soft:hover{background:var(--accent-a4,#0044ff1e)}.ds-soft:active{background:var(--accent-a5,#0044ff2d)}.ds-soft:focus-visible{outline:2px solid var(--accent-9,#3e63dd);outline-offset:3px;}.ds-soft:disabled{background:var(--gray-a3,#0000330f);color:var(--gray-a8,#00083046);cursor:not-allowed}"
+    },
+    {
+      "name": "轻量操作按钮",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "次要或工具栏操作。",
+      "html": "<button class=\"ds-ghost\">取消</button>",
+      "css": ".ds-ghost{font-family:var(--default-font-family,\"Segoe UI\",\"Microsoft YaHei UI\",sans-serif);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:0;border-radius:4px;font-size:14px;line-height:20px;padding:4px 8px;background:transparent;color:var(--gray-a11,#0007149f)}.ds-ghost:hover{background:var(--gray-a3,#0000330f)}.ds-ghost:active{background:var(--gray-a4,#00002d17)}.ds-ghost:focus-visible{outline:2px solid var(--accent-9,#3e63dd);outline-offset:3px;}.ds-ghost:disabled{color:var(--gray-a8,#00083046);cursor:not-allowed;background:transparent}"
+    },
+    {
+      "name": "文本输入框",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "保留标签、Gray 11 占位提示与主题焦点的标准 surface 输入。",
+      "html": "<label class=\"ds-field\">书签标题<input class=\"ds-input\" placeholder=\"输入标题\" /></label>",
+      "css": ".ds-field{font-family:var(--default-font-family,\"Segoe UI\",\"Microsoft YaHei UI\",sans-serif);display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:500;color:var(--gray-12,#1c2024)}.ds-input{font-family:var(--default-font-family,\"Segoe UI\",\"Microsoft YaHei UI\",sans-serif);height:32px;padding:0 7px;border:0;border-radius:4px;font-size:14px;background:var(--color-surface,rgba(255,255,255,.85));color:var(--gray-12,#1c2024);box-shadow:inset 0 0 0 1px var(--gray-a7,#00062e32)}.ds-input:focus-visible{outline:2px solid var(--focus-8,#8da4ef);outline-offset:-1px}.ds-input:disabled{color:var(--gray-a8,#00083046);background:var(--gray-a2,#00005506)}.ds-input::placeholder{color:var(--gray-11,#60646c);opacity:1}"
+    },
+    {
+      "name": "当前导航",
+      "kind": "nav",
+      "refersTo": "navigation-selected",
+      "description": "目录侧栏中明确的当前入口。",
+      "html": "<button class=\"ds-nav\" aria-current=\"page\"><span>全部书签</span><small>28</small></button>",
+      "css": ".ds-nav{font-family:var(--default-font-family,\"Segoe UI\",\"Microsoft YaHei UI\",sans-serif);display:flex;align-items:center;gap:10px;width:100%;min-height:38px;padding:8px 12px;border:0;border-radius:6px;background:var(--accent-3,#edf2fe);color:var(--accent-11,#3a5bc7);font-size:13px;font-weight:600;cursor:pointer;text-align:left}.ds-nav span{flex:1}.ds-nav small{font-size:11px;font-variant-numeric:tabular-nums}.ds-nav:hover{background:var(--accent-3,#edf2fe)}.ds-nav:focus-visible{outline:2px solid var(--accent-9,#3e63dd);outline-offset:3px;}"
+    },
+    {
+      "name": "检查状态标签",
+      "kind": "chip",
+      "refersTo": "status-chip",
+      "description": "状态文字和圆点共同表达已检查结果。",
+      "html": "<span class=\"ds-chip\"><span class=\"ds-dot\" aria-hidden=\"true\"></span>可访问</span>",
+      "css": ".ds-chip{font-family:var(--default-font-family,\"Segoe UI\",\"Microsoft YaHei UI\",sans-serif);display:inline-flex;align-items:center;gap:6px;padding:2px 6px;border-radius:3px;font-size:12px;line-height:16px;font-weight:500;white-space:nowrap;background:var(--green-a3,#00a43319);color:var(--green-a11,#00713fde)}.ds-dot{width:5px;height:5px;border-radius:50%;background:var(--green-9,#30a46c)}"
+    },
+    {
+      "name": "目录预览面",
+      "kind": "card",
+      "refersTo": "preview-panel",
+      "description": "导入前展示目录与数量，使用静态层次而非悬浮效果。",
+      "html": "<section class=\"ds-panel\"><h2 class=\"ds-panel-title\">目录预览</h2><p class=\"ds-panel-copy\">保留原始目录与来源结构</p></section>",
+      "css": ".ds-panel{font-family:var(--default-font-family,\"Segoe UI\",\"Microsoft YaHei UI\",sans-serif);padding:24px;border:1px solid var(--gray-5,#e0e1e6);border-radius:8px;background:var(--gray-2,#f9f9fb);color:var(--gray-12,#1c2024)}.ds-panel-title{margin:0;font-size:14px;line-height:1.5;font-weight:600}.ds-panel-copy{margin:16px 0 0;font-size:12px;line-height:1.7;color:var(--gray-11,#60646c)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "书签整理工作台",
+    "overview": "界面围绕目录、书签列表与检查依据展开。冷灰侧栏与内容面形成稳定层级，靛蓝只承担主操作、当前选择和建议结果；紧凑排版让用户连续比较、确认并应用变更。\n\n使用实际 Radix Themes 3.3.0，主题配置为 Indigo、Slate、medium 圆角和 100% 缩放。系统中文字体服务于 Windows 桌面阅读，浅色和深色保留相同的信息顺序。这里记录交互原型的视觉系统；真实业务实现状态以 PRODUCT.md 与原型说明为准。",
+    "keyCharacteristics": [
+      "目录、列表、详情形成连续工作区。",
+      "细分隔线、浅色块和紧凑行距组织内容。",
+      "颜色、文字与操作依据共同表达状态。",
+      "桌面窗口自由缩放，滚动区与固定操作区保持明确分工。"
+    ],
+    "rules": [
+      {
+        "name": "语义优先",
+        "body": "靛蓝表示操作与选择；绿色、琥珀色、橙色、红色分别表达通过、跳转、需关注与失效。状态必须保留文字，未检查使用灰色。",
+        "section": "colors"
+      },
+      {
+        "name": "平面优先",
+        "body": "常驻区域以底色和细边界分层，浮层阴影只说明菜单、弹窗与通知的遮挡关系。",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do 使用真实 Radix 控件及其主题变量，保留键盘焦点与禁用状态。",
+      "Do 在预览中并列呈现原值、依据和建议结果，长地址允许换行。",
+      "Do 维持深浅主题的角色对应，按内容容器空间切换详情栏与详情弹窗，保留固定的底部操作入口。"
+    ],
+    "donts": [
+      "Don't 引入 Material 3 作为第二套组件外观。",
+      "Don't 将语义状态色用于无关装饰，或仅用颜色表示检查结果。",
+      "Don't 把原型的固定演示结果描述成已接通浏览器、网络或 AI 服务。"
+    ]
+  }
+}

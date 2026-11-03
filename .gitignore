@@ -7,3 +7,5 @@ frontend/bindings
 *.syso
 .DS_Store
 Thumbs.db
+.impeccable/review/
+.impeccable/critique/
